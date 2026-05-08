@@ -1,6 +1,7 @@
 import sys
 import pygame
 from src.core import config
+from src.core import input_handler
 
 class GameEngine:
     def __init__(self):
@@ -12,17 +13,24 @@ class GameEngine:
         self.clock = pygame.time.Clock()
         self.running = True
 
+        self.input_handler = input_handler.InputHandler(self.screen)
+
     def run(self):
         while self.running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
+            action = self.input_handler.handle_events()
+            self.process_action(action)
+
+            if not self.running:
+                break
+
             self.update_display()
             self.clock.tick(config.fps)
+
         self.cleanup()
 
     def process_action(self, action):
-        pass
+        if action == 'quit':
+            self.running = False
 
     def update_display(self):
         self.screen.fill(config.dark_blue)
