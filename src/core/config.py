@@ -1,14 +1,81 @@
-# Mass effec: They Will Not Break Us
+"""
+Конфигурация игры Mass Effect: They Will Not Break Us.
+Содержит все константы и настройки для прототипа.
+"""
 
 # Окно программы
-window_name = "Mass effect: They Will Not Break Us"
-window_width = 600
-window_height = 600
-fps = 60
+WINDOW_WIDTH = 800
+WINDOW_HEIGHT = 600
+WINDOW_TITLE = "Mass Effect: They Will Not Break Us"
+FPS = 60
 
-# Цвета
-white = (255, 255, 255)
-red = (255, 0, 0)
-blue = (0, 0, 255)
-dark_blue = (0, 0, 25)
-light_green = (0, 170, 0)
+# Цвета (прототип)
+COLOR_BG = (20, 20, 30)  # Темно-синий фон
+COLOR_PLAYER = (0, 100, 255)  # Синий игрок
+COLOR_ENEMY = (200, 50, 50)  # Красный враг
+COLOR_BULLET = (255, 255, 0)  # Желтая пуля
+COLOR_UI_TEXT = (255, 255, 255)
+COLOR_HEALTH_BAR_BG = (50, 50, 50)
+COLOR_HEALTH_BAR_FG = (0, 200, 0)
+
+# Игрок
+PLAYER_SIZE = 32
+PLAYER_SPEED = 300  # пикселей в секунду
+PLAYER_MAX_HEALTH = 100
+
+# Перекат (уклонение)
+ROLL_DURATION = 0.3  # секунды
+ROLL_COOLDOWN = 1.0  # секунды
+
+# Пуля
+BULLET_SIZE = 8
+BULLET_SPEED = 600  # пикселей в секунду
+BULLET_DAMAGE = 25
+BULLET_LIFETIME = 2.0  # секунды
+
+# Враг (базовый)
+ENEMY_SIZE = 32
+ENEMY_SPEED = 150  # пикселей в секунду
+ENEMY_MAX_HEALTH = 50
+ENEMY_DAMAGE = 10
+ENEMY_ATTACK_RANGE = 40  # дистанция атаки
+ENEMY_ATTACK_COOLDOWN = 1.5  # секунды
+
+# Волны
+WAVE_INITIAL_DELAY = 3.0  # задержка перед первой волной
+WAVE_SPAWN_INTERVAL = 2.0  # интервал спавна врагов в волне
+WAVE_ENEMY_COUNT_BASE = 3  # базовое количество врагов в волне
+WAVE_ENEMY_COUNT_INCREMENT = 2  # увеличение количества врагов в волну
+
+# Карта/Стены
+WALL_THICKNESS = 10
+
+
+# Класс-обертка для совместимости импортов
+class Config:
+    PLAYER_SIZE = PLAYER_SIZE
+    PLAYER_SPEED = PLAYER_SPEED
+    PLAYER_MAX_HEALTH = PLAYER_MAX_HEALTH
+    ROLL_DURATION = ROLL_DURATION
+    ROLL_COOLDOWN = ROLL_COOLDOWN
+    BULLET_SIZE = BULLET_SIZE
+    BULLET_SPEED = BULLET_SPEED
+    BULLET_DAMAGE = BULLET_DAMAGE
+    BULLET_LIFETIME = BULLET_LIFETIME
+    ENEMY_SIZE = ENEMY_SIZE
+    ENEMY_SPEED = ENEMY_SPEED
+    ENEMY_MAX_HEALTH = ENEMY_MAX_HEALTH
+    ENEMY_DAMAGE = ENEMY_DAMAGE
+    ENEMY_ATTACK_RANGE = ENEMY_ATTACK_RANGE
+    ENEMY_ATTACK_COOLDOWN = ENEMY_ATTACK_COOLDOWN
+    WAVE_INITIAL_DELAY = WAVE_INITIAL_DELAY
+    WAVE_SPAWN_INTERVAL = WAVE_SPAWN_INTERVAL
+    WAVE_ENEMY_COUNT_BASE = WAVE_ENEMY_COUNT_BASE
+    WAVE_ENEMY_COUNT_INCREMENT = WAVE_ENEMY_COUNT_INCREMENT
+    COLOR_BG = COLOR_BG
+    COLOR_PLAYER = COLOR_PLAYER
+    COLOR_ENEMY = COLOR_ENEMY
+    COLOR_BULLET = COLOR_BULLET
+    COLOR_UI_TEXT = COLOR_UI_TEXT
+    COLOR_HEALTH_BAR_BG = COLOR_HEALTH_BAR_BG
+    COLOR_HEALTH_BAR_FG = COLOR_HEALTH_BAR_FG
