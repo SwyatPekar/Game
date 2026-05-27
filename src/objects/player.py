@@ -11,8 +11,6 @@ from src.combat.attack import Attack
 
 
 class Player(Entity):
-    """Класс игрока (Боец N7) - Model компонент"""
-
     def __init__(self, x: float, y: float):
         super().__init__(x, y, player_width, player_height, player_speed)
         self.health = player_max_health
@@ -28,7 +26,6 @@ class Player(Entity):
         self.invincible = False
 
     def update(self, dt: float, keys, mouse_pos: tuple, walls: list):
-        """Обновление состояния игрока"""
         if self.is_rolling:
             self._update_roll(dt, walls)
         else:
@@ -41,7 +38,6 @@ class Player(Entity):
         self._update_facing_angle(mouse_pos)
 
     def _handle_movement(self, keys, dt: float, walls: list):
-        """Обработка обычного перемещения"""
         dx, dy = 0, 0
 
         if keys[pygame.K_w] or keys[pygame.K_UP]:
@@ -60,7 +56,6 @@ class Player(Entity):
         self._move_with_collision(dx, dy, dt, walls)
 
     def _move_with_collision(self, dx: float, dy: float, dt: float, walls: list):
-        """Перемещение с проверкой коллизий по осям"""
         new_x = self.x + dx * self.speed * dt
         if not self._check_wall_collision(new_x, self.y, walls):
             self.x = new_x
@@ -70,7 +65,6 @@ class Player(Entity):
             self.y = new_y
 
     def _check_wall_collision(self, x: float, y: float, walls: list) -> bool:
-        """Проверка столкновения со стенами"""
         rect = pygame.Rect(x, y, self.width, self.height)
         for wall in walls:
             if rect.colliderect(wall):
@@ -78,7 +72,6 @@ class Player(Entity):
         return False
 
     def _handle_rolling_input(self, keys):
-        """Обработка ввода для переката"""
         if not keys[pygame.K_LSHIFT] and not keys[pygame.K_RSHIFT]:
             return
 
@@ -103,7 +96,6 @@ class Player(Entity):
                 self.start_roll(dx, dy)
 
     def start_roll(self, dx: float, dy: float):
-        """Начало переката"""
         self.is_rolling = True
         self.roll_duration = player_roll_duration
         self.roll_cooldown = player_roll_cooldown
@@ -111,7 +103,6 @@ class Player(Entity):
         self.invincible = True
 
     def _update_roll(self, dt: float, walls: list):
-        """Обновление состояния переката"""
         self.roll_duration -= dt
 
         if self.roll_duration <= 0:
@@ -128,7 +119,6 @@ class Player(Entity):
                 self.y = new_y
 
     def _update_facing_angle(self, mouse_pos: tuple):
-        """Обновление угла поворота в сторону мыши"""
         dx = mouse_pos[0] - (self.x + self.width / 2)
         dy = mouse_pos[1] - (self.y + self.height / 2)
         self.facing_angle = math.atan2(dy, dx)
@@ -140,11 +130,6 @@ class Player(Entity):
             health_bar_renderer.render(screen, self)
 
     def shoot(self) -> Projectile:
-        """
-        Создаёт снаряд (пулю).
-        Возвращает объект Projectile для передачи в CombatSystem.
-        """
-        # Позиция: центр игрока
         center_x = self.x + self.width / 2
         center_y = self.y + self.height / 2
 
@@ -158,13 +143,9 @@ class Player(Entity):
         )
 
     def kick(self) -> Attack:
-        """
-        Создаёт рукопашную атаку (пинок).
-        Возвращает объект Attack для передачи в CombatSystem.
-        """
         return Attack(
             damage=player_kick_damage,
             range=player_kick_range,
-            duration=0.15,  # Короткая длительность хитбокса
+            duration=0.15,
             is_melee=True
         )
