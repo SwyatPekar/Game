@@ -1,5 +1,6 @@
 import sys
 import pygame
+from typing import Optional, List
 from src.core import config
 from src.core.input_handler import InputHandler
 from src.objects.player import Player
@@ -13,6 +14,7 @@ from src.systems.wave_manager import WaveManager
 
 
 class GameEngine:
+    """Основной движок игры, управляющий игровым циклом."""
 
     def __init__(self):
         pygame.init()
@@ -28,14 +30,31 @@ class GameEngine:
         self.health_bar_renderer = HealthBarRenderer()
         self.projectile_renderer = ProjectileRenderer()
 
+        self._game_objects: dict = {}
+        self._init_game_objects()
+
+    def _init_game_objects(self):
+        """Инициализирует игровые объекты."""
         self.player = self._create_player()
         self.walls = create_test_walls()
-
         self.combat_system = CombatSystem()
-
         self.wave_manager = WaveManager(config.window_width, config.window_height)
+        self._game_objects = {
+            'player': self.player,
+            'walls': self.walls,
+            'combat_system': self.combat_system,
+            'wave_manager': self.wave_manager
+        }
+
+    def reset_game(self):
+        """Сбрасывает состояние игры для новой сессии."""
+        score = self.wave_manager.get_wave_info()['score']
+        print(f"Игрок погиб. Счёт: {score}")
+        pygame.time.wait(1500)
+        self._init_game_objects()
 
     def run(self):
+        """Запускает основной игровой цикл."""
         while self.running:
             dt = self.clock.tick(config.fps) / 1000.0
 
@@ -48,14 +67,13 @@ class GameEngine:
             self._process_action(action)
 
             if not self.player.is_alive:
-                print(f"Игрок погиб. Счёт: {self.wave_manager.get_wave_info()['score']}")
-                pygame.time.wait(1500)
-                self.__init__()
+                self.reset_game()
 
     def _create_player(self) -> Player:
         return Player(test_player_spawn_x, test_player_spawn_y)
 
     def _update(self, dt: float):
+        """Обновляет состояние всех игровых объектов."""
 
         if self.wave_manager.state == "WAITING":
             self.wave_manager.start_game()
@@ -76,6 +94,7 @@ class GameEngine:
         self.combat_system.update(dt, self.player, active_enemies, self.walls)
 
     def _render(self):
+        """Отрисовывает все игровые объекты."""
         self.screen.fill(config.dark_blue)
 
         for wall in self.walls:
@@ -99,6 +118,7 @@ class GameEngine:
         pygame.display.flip()
 
     def _render_hud(self):
+        """Отрисовывает интерфейс пользователя."""
         font = pygame.font.SysFont("Arial", 20)
         info = self.wave_manager.get_wave_info()
 
@@ -106,6 +126,7 @@ class GameEngine:
         self.screen.blit(text_wave, (10, 10))
 
     def _process_action(self, action):
+        """Обрабатывает действия игрока."""
         if action == 'quit':
             self.running = False
 

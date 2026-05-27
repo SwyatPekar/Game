@@ -1,34 +1,39 @@
 import pygame
-from typing import List
+from typing import List, Dict, Any, Union
 
 from src.objects.weapons.projectile import Projectile
 from src.combat.attack import Attack
 from src.core.config import window_width, window_height
+from src.objects.entity import Entity
 
 
 class CombatSystem:
+    """Система управления боем: снаряды и атаки ближнего боя."""
+
     def __init__(self):
         self.projectiles: List[Projectile] = []
-        self.active_attacks = []
+        self.active_attacks: List[Dict[str, Any]] = []
 
     def register_projectile(self, projectile: Projectile):
+        """Регистрирует новый снаряд в системе."""
         self.projectiles.append(projectile)
 
-    def register_attack(self, attacker, attack: Attack):
+    def register_attack(self, attacker: Entity, attack: Attack):
+        """Регистрирует новую атаку ближнего боя."""
         self.active_attacks.append({
             'attacker': attacker,
             'attack': attack,
             'hit_targets': set()
         })
 
-    def update(self, dt: float, player, enemies: list, walls: list):
+    def update(self, dt: float, player: Entity, enemies: List[Entity], walls: list):
+        """Обновляет состояние всех боевых объектов."""
         self._update_projectiles(dt, player, enemies, walls)
-
         self._update_attacks(dt, player, enemies)
-
         self._cleanup()
 
-    def _update_projectiles(self, dt: float, player, enemies: list, walls: list):
+    def _update_projectiles(self, dt: float, player: Entity, enemies: List[Entity], walls: list):
+        """Обновляет снаряды и проверяет коллизии."""
         projectiles_to_remove = []
 
         for proj in self.projectiles:
@@ -54,7 +59,8 @@ class CombatSystem:
                         player.take_damage(proj.damage)
                         projectiles_to_remove.append(proj)
 
-    def _update_attacks(self, dt: float, player, enemies: list):
+    def _update_attacks(self, dt: float, player: Entity, enemies: List[Entity]):
+        """Обновляет атаки ближнего боя и проверяет попадания."""
         attacks_to_remove = []
 
         for attack_data in self.active_attacks:
@@ -86,5 +92,6 @@ class CombatSystem:
                         hit_targets.add(target)
 
     def _cleanup(self):
+        """Очищает неактивные снаряды и атаки."""
         self.projectiles = [p for p in self.projectiles if p.is_active]
         self.active_attacks = [a for a in self.active_attacks if a['attack'].is_active]

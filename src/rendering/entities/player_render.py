@@ -1,12 +1,19 @@
 import pygame
 import math
+from typing import TYPE_CHECKING
 from src.core.config import (green, direction_line_color, direction_line_length, health_bar_width, health_bar_height,
                              health_bar_offset_y, black, red)
 
+if TYPE_CHECKING:
+    from src.objects.player import Player
+
 
 class PlayerRenderer:
+    """Рендерер игрока."""
+
     @staticmethod
-    def render(screen: pygame.Surface, player):
+    def render(screen: pygame.Surface, player: 'Player'):
+        """Отрисовывает игрока и индикатор направления."""
         surface = pygame.Surface((player.width, player.height), pygame.SRCALPHA)
 
         color = (100, 100, 255, 180) if player.invincible else (*green, 255)
@@ -23,7 +30,8 @@ class PlayerRenderer:
         pygame.draw.line(screen, direction_line_color, (center_x, center_y), (end_x, end_y), 2)
 
     @staticmethod
-    def render_health_bar(screen: pygame.Surface, player):
+    def render_health_bar(screen: pygame.Surface, player: 'Player'):
+        """Отрисовывает полосу здоровья игрока."""
         bar_width = health_bar_width
         bar_height = health_bar_height
         bar_x = player.x - (bar_width - player.width) / 2

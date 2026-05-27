@@ -1,10 +1,13 @@
 import random
 import pygame
+from typing import List, Optional, Dict, Any
 from src.core import config
 from src.objects.enemies.husk import Husk
+from src.objects.enemies.enemy import Enemy
 
 
 class WaveManager:
+    """Управляет волнами врагов, их спавном и состоянием игры."""
 
     def __init__(self, window_width: int, window_height: int):
         self.window_width = window_width
@@ -13,8 +16,8 @@ class WaveManager:
         self.current_wave = 0
         self.state = "WAITING"
 
-        self.active_enemies = []
-        self.spawn_queue = []
+        self.active_enemies: List[Enemy] = []
+        self.spawn_queue: List[str] = []
 
         self.timer = 0.0
         self.score = 0
@@ -25,12 +28,28 @@ class WaveManager:
             (window_width // 2, 50), (window_width // 2, window_height - 50)
         ]
 
+        # Маппинг типов врагов для будущего расширения
+        self._enemy_types: Dict[str, type] = {
+            "husk": Husk
+        }
+
     def start_game(self):
+        """Инициализирует первую волну."""
         self.current_wave = 1
         self._prepare_wave()
         self.state = "SPAWNING"
 
+    def reset(self):
+        """Сбрасывает состояние менеджера волн для новой игры."""
+        self.current_wave = 0
+        self.state = "WAITING"
+        self.active_enemies = []
+        self.spawn_queue = []
+        self.timer = 0.0
+        self.score = 0
+
     def _prepare_wave(self):
+        """Подготавливает очередь спавна для текущей волны."""
         self.spawn_queue = []
 
         count = config.initial_enemies_count + (self.current_wave * config.enemies_increment)
@@ -79,20 +98,16 @@ class WaveManager:
             self.timer = 0.0
             print(f"Начинается волна {self.current_wave}!")
 
-    def _spawn_enemy(self, enemy_type: str):
-        x, y = random.choice(self.spawn_points)
-
-        if enemy_type == "husk":
-            return Husk(x, y)
-        else:
-            return Husk(x, y)
-
-    def _spawn_enemy(self, enemy_type: str, walls: list):
+    def _spawn_enemy(self, enemy_type: str, walls: list) -> Optional[Enemy]:
+        """Создаёт врага в случайной точке спавна без коллизий со стенами."""
         max_attempts = 10
 
         for _ in range(max_attempts):
             x, y = random.choice(self.spawn_points)
 
+            enemy_class = self._enemy_types.get(enemy_type, Husk)
+            
+            # Получаем размеры врага для проверки коллизий
             if enemy_type == "husk":
                 enemy_rect = pygame.Rect(x - 14, y - 14, 28, 28)
             else:
@@ -105,19 +120,18 @@ class WaveManager:
                     break
 
             if not collision:
-                if enemy_type == "husk":
-                    return Husk(x, y)
-                else:
-                    return Husk(x, y)
+                return enemy_class(x, y)
 
         print(f"Warning: Could not spawn {enemy_type} - all positions blocked")
         return None
 
-    def get_enemies(self) -> list:
+    def get_enemies(self) -> List[Enemy]:
+        """Возвращает список живых врагов."""
         self.active_enemies = [e for e in self.active_enemies if e.is_alive]
         return self.active_enemies
 
-    def get_wave_info(self) -> dict:
+    def get_wave_info(self) -> Dict[str, Any]:
+        """Возвращает информацию о текущей волне."""
         return {
             "wave": self.current_wave,
             "state": self.state,

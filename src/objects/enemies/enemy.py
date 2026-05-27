@@ -1,12 +1,15 @@
 import pygame
 import math
 from abc import ABC
+from typing import Dict, Any
 from src.objects.entity import Entity
 from src.combat.attack import Attack
 from src.core.config import enemy_detection_range, enemy_attack_cooldown, enemy_patrol_timer
 
 
 class Enemy(Entity, ABC):
+    """Базовый класс для всех врагов."""
+
     def __init__(self, x: float, y: float, enemy_type: str):
         stats = self.get_enemy_stats(enemy_type)
         super().__init__(x, y, stats['width'], stats['height'], stats['speed'])
@@ -25,7 +28,9 @@ class Enemy(Entity, ABC):
         self.patrol_timer = 0
         self.patrol_direction = (1, 0)
 
-    def get_enemy_stats(self, enemy_type: str) -> dict:
+    @staticmethod
+    def get_enemy_stats(enemy_type: str) -> Dict[str, Any]:
+        """Возвращает базовые характеристики врага. Переопределяется в наследниках."""
         return {
             'width': 32,
             'height': 32,
