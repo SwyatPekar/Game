@@ -1,5 +1,5 @@
 import pygame
-from src.rendering.render import BaseRenderer
+from src.rendering.abc_render import BaseRenderer
 
 
 class EntityRenderer(BaseRenderer):

@@ -4,8 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="ЗАБЫЛ НАПРОЧЬ ПРО ГИТ. Последние изменения две недели назад. ЭТО КРУПНОЕ ОБНОВЛЕНИЕ - мой мвп, игра работает, но очень многое нужно отрефакторить и доделать">
+    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Вынес логику отрисовки информации о волнах в отдельный класс, чтобы фпс так не проседали">
+      <change afterPath="$PROJECT_DIR$/src/rendering/abc_render.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rendering/entities/entity_render.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rendering/entities/entity_render.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rendering/render.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rendering/render.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +112,39 @@
       <option name="project" value="LOCAL" />
       <updated>1779723186777</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="ЗАБЫЛ НАПРОЧЬ ПРО ГИТ. Последние изменения две недели назад. ЭТО КРУПНОЕ ОБНОВЛЕНИЕ - мой мвп, игра работает, но очень многое нужно отрефакторить и доделать">
+      <option name="closed" value="true" />
+      <created>1779894315201</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1779894315201</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Пошаманил с input_handler.py">
+      <option name="closed" value="true" />
+      <created>1780821346154</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1780821346154</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Вынес логику управления уровнями и состояниями в отдельные классы">
+      <option name="closed" value="true" />
+      <created>1780822491854</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1780822491854</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Вынес логику отрисовки информации о волнах в отдельный класс, чтобы фпс так не проседали">
+      <option name="closed" value="true" />
+      <created>1780822816536</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1780822816536</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -116,6 +152,9 @@
     <MESSAGE value="Поработал над иконкой, обновил config, game" />
     <MESSAGE value="Добавил класс обработки событий, обновил game" />
     <MESSAGE value="ЗАБЫЛ НАПРОЧЬ ПРО ГИТ. Последние изменения две недели назад. ЭТО КРУПНОЕ ОБНОВЛЕНИЕ - мой мвп, игра работает, но очень многое нужно отрефакторить и доделать" />
-    <option name="LAST_COMMIT_MESSAGE" value="ЗАБЫЛ НАПРОЧЬ ПРО ГИТ. Последние изменения две недели назад. ЭТО КРУПНОЕ ОБНОВЛЕНИЕ - мой мвп, игра работает, но очень многое нужно отрефакторить и доделать" />
+    <MESSAGE value="Пошаманил с input_handler.py" />
+    <MESSAGE value="Вынес логику управления уровнями и состояниями в отдельные классы" />
+    <MESSAGE value="Вынес логику отрисовки информации о волнах в отдельный класс, чтобы фпс так не проседали" />
+    <option name="LAST_COMMIT_MESSAGE" value="Вынес логику отрисовки информации о волнах в отдельный класс, чтобы фпс так не проседали" />
   </component>
 </project>
