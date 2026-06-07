@@ -12,15 +12,16 @@ class Entity:
         self.health = 100
         self.max_health = 100
         self.is_alive = True
-        self.velocity_x = 0
-        self.velocity_y = 0
 
     def update(self, dt: float, *args, **kwargs):
         pass
 
-    def draw(self, screen: pygame.Surface, renderer=None):
-        if renderer:
-            renderer.render(screen, self)
+    def draw(self, screen: pygame.Surface, renderers: dict = None):
+        if renderers and 'entity' in renderers:
+            renderers['entity'].render(screen, self)
+        else:
+            rect = pygame.Rect(self.x, self.y, self.width, self.height)
+            pygame.draw.rect(screen, (255, 255, 255), rect)
 
     def get_rect(self) -> pygame.Rect:
         return pygame.Rect(self.x, self.y, self.width, self.height)
@@ -33,9 +34,6 @@ class Entity:
 
     def die(self):
         self.is_alive = False
-
-    def check_collision(self, other: 'Entity') -> bool:
-        return self.get_rect().colliderect(other.get_rect())
 
     def distance_to(self, other: 'Entity') -> float:
         dx = other.x - self.x
