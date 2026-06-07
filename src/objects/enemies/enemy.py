@@ -81,13 +81,16 @@ class Enemy(Entity):
             dx = target_x - (self.x + self.width / 2)
             dy = target_y - (self.y + self.height / 2)
 
+            distance_to_target = math.sqrt(dx ** 2 + dy ** 2)
+
+            if distance_to_target < 10:
+                self.path.pop(0)
+                return
+
             if dx != 0 or dy != 0:
                 length = math.sqrt(dx ** 2 + dy ** 2)
                 dx, dy = dx / length, dy / length
                 self._move_with_collision(dx, dy, dt, walls)
-
-            if length < 5:
-                self.path.pop(0)
         else:
             self._chase_player(dt, player, walls)
 
@@ -107,7 +110,6 @@ class Enemy(Entity):
     def _attack_player(self, dt: float, player: Entity):
         if self.attack_cooldown_timer <= 0:
             if self.distance_to(player) <= self.attack_range:
-                # Вместо прямого урона создаем объект атаки
                 self.current_attack = self.attack(player)
 
             self.attack_cooldown_timer = config.enemy_attack_cooldown

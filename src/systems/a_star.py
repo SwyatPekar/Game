@@ -1,4 +1,5 @@
 import heapq
+import math
 from src.core import config
 
 
@@ -29,24 +30,49 @@ class AStar:
                 (current[0] + 1, current[1]),
                 (current[0] - 1, current[1]),
                 (current[0], current[1] + 1),
-                (current[0], current[1] - 1)
+                (current[0], current[1] - 1),
+                (current[0] + 1, current[1] + 1),
+                (current[0] + 1, current[1] - 1),
+                (current[0] - 1, current[1] + 1),
+                (current[0] - 1, current[1] - 1),
             ]
 
             for neighbor in neighbors:
                 nx, ny = neighbor
-                if 0 <= nx < width and 0 <= ny < height and grid[ny][nx] != config.tile_wall:
-                    step_cost = 1.5 if grid[ny][nx] == config.tile_rubble else 1.0
 
-                    tentative_g_score = g_score[current] + step_cost
+                if not (0 <= nx < width and 0 <= ny < height):
+                    continue
 
-                    if neighbor not in g_score or tentative_g_score < g_score[neighbor]:
-                        came_from[neighbor] = current
-                        g_score[neighbor] = tentative_g_score
-                        h = abs(nx - goal[0]) + abs(ny - goal[1])
-                        f_score = tentative_g_score + h
-                        heapq.heappush(open_set, (f_score, neighbor))
+                if grid[ny][nx] == config.tile_wall:
+                    continue
+
+                if nx != current[0] and ny != current[1]:
+                    if grid[current[1]][nx] == config.tile_wall or grid[ny][current[0]] == config.tile_wall:
+                        continue
+
+                is_diagonal = (nx != current[0] and ny != current[1])
+                step_cost = 1.414 if is_diagonal else 1.0
+
+                if grid[ny][nx] == config.tile_rubble:
+                    step_cost *= 1.5
+
+                tentative_g_score = g_score[current] + step_cost
+
+                if neighbor not in g_score or tentative_g_score < g_score[neighbor]:
+                    came_from[neighbor] = current
+                    g_score[neighbor] = tentative_g_score
+                    h = AStar._heuristic(neighbor, goal)
+                    f_score = tentative_g_score + h
+                    heapq.heappush(open_set, (f_score, neighbor))
 
         return []
+
+    @staticmethod
+    def _heuristic(a, b):
+        """Октильное расстояние"""
+        dx = abs(a[0] - b[0])
+        dy = abs(a[1] - b[1])
+        return max(dx, dy) + (math.sqrt(2) - 1) * min(dx, dy)
 
     @staticmethod
     def _reconstruct_path(came_from, current):
