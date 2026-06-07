@@ -1,8 +1,9 @@
 import math
+import random
 import pygame
 from src.objects.entity import Entity
 from src.combat.attack import Attack
-from src.core.config import enemy_detection_range, enemy_attack_cooldown, enemy_patrol_timer
+from src.core import config
 
 
 class Enemy(Entity):
@@ -17,26 +18,28 @@ class Enemy(Entity):
         self.speed = stats['speed']
 
         self.state = "patrol"
-        self.target = None
-        self.detection_range = enemy_detection_range
+        self.detection_range = config.enemy_detection_range
         self.attack_range = stats['attack_range']
         self.attack_cooldown_timer = 0
-        self.patrol_timer = 0
+        self.patrol_timer = config.enemy_patrol_timer  # Исправлено: теперь ждет перед первым патрулированием
         self.patrol_direction = (1, 0)
+        self.current_attack: Attack = None
 
     def get_enemy_stats(self, enemy_type: str) -> dict:
         return {
-            'width': 32,
-            'height': 32,
-            'speed': 100,
-            'health': 50,
-            'damage': 10,
-            'attack_range': 40
+            'width': config.enemy_base_width,
+            'height': config.enemy_base_height,
+            'speed': config.enemy_base_speed,
+            'health': config.enemy_base_health,
+            'damage': config.enemy_base_damage,
+            'attack_range': config.enemy_base_attack_range
         }
 
     def update(self, dt: float, player: Entity, walls: list):
         if not self.is_alive:
             return
+
+        self.current_attack = None
 
         if self.attack_cooldown_timer > 0:
             self.attack_cooldown_timer -= dt
@@ -74,11 +77,10 @@ class Enemy(Entity):
     def _attack_player(self, dt: float, player: Entity):
         if self.attack_cooldown_timer <= 0:
             if self.distance_to(player) <= self.attack_range:
-                if not hasattr(player, 'invincible') or not player.invincible:
-                    player.take_damage(self.damage)
-                    print(f"Враг {self.enemy_type} нанёс {self.damage} урона! HP игрока: {player.health}")
+                # Вместо прямого урона создаем объект атаки
+                self.current_attack = self.attack(player)
 
-            self.attack_cooldown_timer = enemy_attack_cooldown
+            self.attack_cooldown_timer = config.enemy_attack_cooldown
 
     def attack(self, target: Entity) -> Attack:
         return Attack(
@@ -92,7 +94,6 @@ class Enemy(Entity):
         self.patrol_timer -= dt
 
         if self.patrol_timer <= 0:
-            import random
             self.patrol_direction = (random.uniform(-1, 1), random.uniform(-1, 1))
             length = math.sqrt(self.patrol_direction[0] ** 2 + self.patrol_direction[1] ** 2)
             if length > 0:
@@ -100,7 +101,7 @@ class Enemy(Entity):
                     self.patrol_direction[0] / length,
                     self.patrol_direction[1] / length
                 )
-            self.patrol_timer = enemy_patrol_timer
+            self.patrol_timer = config.enemy_patrol_timer
 
         dx, dy = self.patrol_direction
         self._move_with_collision(dx, dy, dt, walls)
@@ -121,7 +122,7 @@ class Enemy(Entity):
             self.x = new_x
             self.y = new_y
 
-    def draw(self, screen: pygame.Surface):
+    def draw(self, screen: pygame.Surface, renderers: dict = None):
         color = self.get_color()
         pygame.draw.rect(screen, color, (self.x, self.y, self.width, self.height))
         pygame.draw.rect(screen, (0, 0, 0), (self.x, self.y, self.width, self.height), 2)
@@ -134,9 +135,9 @@ class Enemy(Entity):
 
     def _draw_health_bar(self, screen: pygame.Surface):
         bar_width = self.width
-        bar_height = 4
-        bar_y = self.y - 8
+        bar_height = config.health_bar_height_enemy
+        bar_y = self.y - config.health_bar_offset_y_enemy
 
-        pygame.draw.rect(screen, (255, 0, 0), (self.x, bar_y, bar_width, bar_height))
+        pygame.draw.rect(screen, config.red, (self.x, bar_y, bar_width, bar_height))
         health_width = int(bar_width * (self.health / self.max_health))
-        pygame.draw.rect(screen, (0, 255, 0), (self.x, bar_y, health_width, bar_height))
+        pygame.draw.rect(screen, config.green, (self.x, bar_y, health_width, bar_height))

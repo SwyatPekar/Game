@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Продолжаю рефакторить, на этот раз wave_manager.py" />
+    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Продолжаю рефакторить, на этот раз entity.py" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -194,7 +194,23 @@
       <option name="project" value="LOCAL" />
       <updated>1780836724834</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Продолжаю рефакторить, на этот раз config.py">
+      <option name="closed" value="true" />
+      <created>1780836942827</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1780836942827</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Продолжаю рефакторить, на этот раз entity.py">
+      <option name="closed" value="true" />
+      <created>1780837144504</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1780837144504</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -212,6 +228,8 @@
     <MESSAGE value="Немного рефакторинга в game" />
     <MESSAGE value="Провел тотальный рефакторинг для объектов и отрисовщиков" />
     <MESSAGE value="Продолжаю рефакторить, на этот раз wave_manager.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Продолжаю рефакторить, на этот раз wave_manager.py" />
+    <MESSAGE value="Продолжаю рефакторить, на этот раз config.py" />
+    <MESSAGE value="Продолжаю рефакторить, на этот раз entity.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="Продолжаю рефакторить, на этот раз entity.py" />
   </component>
 </project>
