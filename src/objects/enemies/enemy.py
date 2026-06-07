@@ -30,6 +30,8 @@ class Enemy(Entity):
         self.path_timer = 0.0
         self.path_update_interval = 0.5
         self.current_target_tile = None
+        self.last_position = (x, y)
+        self.stuck_timer = 0.0
 
     def get_enemy_stats(self, enemy_type: str) -> dict:
         return {
@@ -63,6 +65,15 @@ class Enemy(Entity):
         elif self.state == "patrol":
             self._patrol(dt, walls)
 
+    def _chase_player(self, dt: float, player: Entity, walls: list):
+        dx = player.x - self.x
+        dy = player.y - self.y
+
+        if dx != 0 or dy != 0:
+            length = math.sqrt(dx ** 2 + dy ** 2)
+            dx, dy = dx / length, dy / length
+            self._move_with_collision(dx, dy, dt, walls)
+
     def _chase_player_smart(self, dt: float, player: Entity, walls: list, grid: list):
         self.path_timer -= dt
         if self.path_timer <= 0 or self.current_target_tile != self._get_tile(player.x, player.y):
@@ -71,6 +82,22 @@ class Enemy(Entity):
 
             start_tile = self._get_tile(self.x, self.y)
             self.path = AStar.find_path(grid, start_tile, self.current_target_tile)
+
+        if not hasattr(self, 'last_position'):
+            self.last_position = (self.x, self.y)
+            self.stuck_timer = 0.0
+
+        distance_moved = math.sqrt((self.x - self.last_position[0]) ** 2 + (self.y - self.last_position[1]) ** 2)
+        self.last_position = (self.x, self.y)
+
+        if distance_moved < 1:
+            self.stuck_timer += dt
+        else:
+            self.stuck_timer = 0.0
+
+        if self.stuck_timer > 0.5:
+            self.path = []
+            self.stuck_timer = 0.0
 
         if len(self.path) > 1:
             target_tile = self.path[1]
@@ -83,14 +110,34 @@ class Enemy(Entity):
 
             distance_to_target = math.sqrt(dx ** 2 + dy ** 2)
 
-            if distance_to_target < 10:
+            if distance_to_target < 15:
                 self.path.pop(0)
                 return
 
             if dx != 0 or dy != 0:
                 length = math.sqrt(dx ** 2 + dy ** 2)
                 dx, dy = dx / length, dy / length
-                self._move_with_collision(dx, dy, dt, walls)
+
+                new_x = self.x + dx * self.speed * dt
+                new_y = self.y + dy * self.speed * dt
+
+                test_rect = pygame.Rect(new_x, new_y, self.width, self.height)
+                can_move = not any(test_rect.colliderect(wall) for wall in walls)
+
+                if can_move:
+                    self.x = new_x
+                    self.y = new_y
+                else:
+                    test_rect_x = pygame.Rect(new_x, self.y, self.width, self.height)
+                    can_move_x = not any(test_rect_x.colliderect(wall) for wall in walls)
+
+                    test_rect_y = pygame.Rect(self.x, new_y, self.width, self.height)
+                    can_move_y = not any(test_rect_y.colliderect(wall) for wall in walls)
+
+                    if can_move_x and not can_move_y:
+                        self.x = new_x
+                    elif can_move_y and not can_move_x:
+                        self.y = new_y
         else:
             self._chase_player(dt, player, walls)
 
