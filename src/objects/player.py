@@ -5,7 +5,6 @@ from src.objects.entity import Entity
 from src.objects.weapons.projectile import Projectile
 from src.combat.attack import Attack
 
-
 class Player(Entity):
     def __init__(self, x: float, y: float):
         super().__init__(x, y, config.player_width, config.player_height, config.player_speed)
@@ -17,8 +16,11 @@ class Player(Entity):
         self.is_rolling = False
         self.roll_speed = config.player_roll_speed
         self.roll_direction = (0, 0)
-        self.facing_angle = 0
         self.invincible = False
+        self.shoot_cooldown = 0.0
+        self.shoot_cooldown_duration = 0.2
+
+        self.facing_angle = 0
 
     def update(self, dt: float, keys, mouse_pos: tuple, walls: list):
         if self.is_rolling:
@@ -29,6 +31,9 @@ class Player(Entity):
 
         if self.roll_cooldown > 0:
             self.roll_cooldown -= dt
+
+        if self.shoot_cooldown > 0:
+            self.shoot_cooldown -= dt
 
         self._update_facing_angle(mouse_pos)
 
@@ -120,6 +125,10 @@ class Player(Entity):
             pygame.draw.rect(screen, config.green, (self.x, self.y, self.width, self.height))
 
     def shoot(self) -> Projectile:
+        if self.shoot_cooldown > 0:
+            return None
+        self.shoot_cooldown = self.shoot_cooldown_duration
+
         center_x = self.x + self.width / 2
         center_y = self.y + self.height / 2
 
