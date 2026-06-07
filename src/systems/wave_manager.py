@@ -1,5 +1,5 @@
-import random
 import pygame
+import random
 from src.core import config
 from src.objects.enemies.husk import Husk
 
@@ -81,7 +81,7 @@ class WaveManager:
             self.current_wave += 1
             self._prepare_wave()
             self.state = "SPAWNING"
-            self.timer -= config.wave_rest_duration
+            self.timer = 0.0
 
     def _spawn_enemy(self, enemy_type: str, walls: list):
         max_attempts = 10
@@ -93,10 +93,14 @@ class WaveManager:
 
         for _ in range(max_attempts):
             x, y = random.choice(self.spawn_points)
-            enemy_rect = pygame.Rect(x - w // 2, y - h // 2, w, h)
+
+            spawn_x = x - w // 2
+            spawn_y = y - h // 2
+
+            enemy_rect = pygame.Rect(spawn_x, spawn_y, w, h)
 
             if not any(enemy_rect.colliderect(wall) for wall in walls):
-                return enemy_class(x, y)
+                return enemy_class(spawn_x, spawn_y)
 
         return None
 

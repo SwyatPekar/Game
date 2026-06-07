@@ -46,6 +46,8 @@ player_kick_damage = 15
 enemy_detection_range = 2000
 enemy_attack_cooldown = 1.0
 enemy_patrol_timer = 2.0
+health_bar_height_enemy = 4
+health_bar_offcet_y_enemy = 8
 
 # UI
 health_bar_width = 40
