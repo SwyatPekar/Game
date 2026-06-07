@@ -1,26 +1,21 @@
-import pygame
 import math
-from src.core.config import (player_width, player_height, player_speed,
-                             player_max_health, player_damage,
-                             player_roll_speed, player_roll_duration, player_roll_cooldown,
-                             player_kick_range, player_kick_damage, bullet_speed)
+import pygame
+from src.core import config
 from src.objects.entity import Entity
 from src.objects.weapons.projectile import Projectile
 from src.combat.attack import Attack
 
 
-
 class Player(Entity):
     def __init__(self, x: float, y: float):
-        super().__init__(x, y, player_width, player_height, player_speed)
-        self.health = player_max_health
-        self.max_health = player_max_health
-        self.damage = player_damage
-        self.weapon = None
+        super().__init__(x, y, config.player_width, config.player_height, config.player_speed)
+        self.health = config.player_max_health
+        self.max_health = config.player_max_health
+        self.damage = config.player_damage
         self.roll_cooldown = 0
         self.roll_duration = 0
         self.is_rolling = False
-        self.roll_speed = player_roll_speed
+        self.roll_speed = config.player_roll_speed
         self.roll_direction = (0, 0)
         self.facing_angle = 0
         self.invincible = False
@@ -40,14 +35,10 @@ class Player(Entity):
     def _handle_movement(self, keys, dt: float, walls: list):
         dx, dy = 0, 0
 
-        if keys[pygame.K_w] or keys[pygame.K_UP]:
-            dy = -1
-        if keys[pygame.K_s] or keys[pygame.K_DOWN]:
-            dy = 1
-        if keys[pygame.K_a] or keys[pygame.K_LEFT]:
-            dx = -1
-        if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-            dx = 1
+        if keys[pygame.K_w] or keys[pygame.K_UP]: dy = -1
+        if keys[pygame.K_s] or keys[pygame.K_DOWN]: dy = 1
+        if keys[pygame.K_a] or keys[pygame.K_LEFT]: dx = -1
+        if keys[pygame.K_d] or keys[pygame.K_RIGHT]: dx = 1
 
         if dx != 0 or dy != 0:
             length = math.sqrt(dx ** 2 + dy ** 2)
@@ -77,14 +68,10 @@ class Player(Entity):
 
         if self.roll_cooldown <= 0:
             dx, dy = 0, 0
-            if keys[pygame.K_w] or keys[pygame.K_UP]:
-                dy = -1
-            if keys[pygame.K_s] or keys[pygame.K_DOWN]:
-                dy = 1
-            if keys[pygame.K_a] or keys[pygame.K_LEFT]:
-                dx = -1
-            if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-                dx = 1
+            if keys[pygame.K_w] or keys[pygame.K_UP]: dy = -1
+            if keys[pygame.K_s] or keys[pygame.K_DOWN]: dy = 1
+            if keys[pygame.K_a] or keys[pygame.K_LEFT]: dx = -1
+            if keys[pygame.K_d] or keys[pygame.K_RIGHT]: dx = 1
 
             if dx == 0 and dy == 0:
                 dx = math.cos(self.facing_angle)
@@ -97,8 +84,8 @@ class Player(Entity):
 
     def start_roll(self, dx: float, dy: float):
         self.is_rolling = True
-        self.roll_duration = player_roll_duration
-        self.roll_cooldown = player_roll_cooldown
+        self.roll_duration = config.player_roll_duration
+        self.roll_cooldown = config.player_roll_cooldown
         self.roll_direction = (dx, dy)
         self.invincible = True
 
@@ -123,11 +110,14 @@ class Player(Entity):
         dy = mouse_pos[1] - (self.y + self.height / 2)
         self.facing_angle = math.atan2(dy, dx)
 
-    def draw(self, screen: pygame.Surface, player_renderer=None, health_bar_renderer=None):
-        if player_renderer:
-            player_renderer.render(screen, self)
-        if health_bar_renderer:
-            health_bar_renderer.render(screen, self)
+    def draw(self, screen: pygame.Surface, renderers: dict = None):
+        if renderers:
+            if 'player' in renderers:
+                renderers['player'].render(screen, self)
+            if 'health_bar' in renderers:
+                renderers['health_bar'].render(screen, self)
+        else:
+            pygame.draw.rect(screen, config.green, (self.x, self.y, self.width, self.height))
 
     def shoot(self) -> Projectile:
         center_x = self.x + self.width / 2
@@ -137,15 +127,15 @@ class Player(Entity):
             x=center_x,
             y=center_y,
             angle=self.facing_angle,
-            speed=bullet_speed,
+            speed=config.bullet_speed,
             damage=self.damage,
             owner_type='player'
         )
 
     def kick(self) -> Attack:
         return Attack(
-            damage=player_kick_damage,
-            range=player_kick_range,
+            damage=config.player_kick_damage,
+            range=config.player_kick_range,
             duration=0.15,
             is_melee=True
         )

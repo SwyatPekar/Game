@@ -13,11 +13,10 @@ from src.systems.wave_manager import WaveManager
 
 
 class GameEngine:
-
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((config.window_width, config.window_height))
-        icon = pygame.image.load('../assets/images/icon.png')
+        icon = pygame.image.load('assets/images/icon.png')
         pygame.display.set_caption(config.window_name)
         pygame.display.set_icon(icon)
         self.clock = pygame.time.Clock()
@@ -31,11 +30,15 @@ class GameEngine:
         self.health_bar_renderer = HealthBarRenderer()
         self.projectile_renderer = ProjectileRenderer()
 
+        self.renderers = {
+            'player': self.player_renderer,
+            'health_bar': self.health_bar_renderer,
+            'projectile': self.projectile_renderer
+        }
+
         self.renderer = WorldRenderer(
             self.screen,
-            self.player_renderer,
-            self.health_bar_renderer,
-            self.projectile_renderer
+            self.renderers
         )
 
         self.combat_system = CombatSystem(config.window_width, config.window_height)
@@ -77,7 +80,8 @@ class GameEngine:
                 self.wave_manager.get_enemies(),
                 self.combat_system.projectiles,
                 self.player,
-                self.wave_manager
+                self.wave_manager,
+                self.renderers
             )
 
         self.cleanup()
@@ -99,6 +103,9 @@ class GameEngine:
         for enemy in active_enemies:
             if enemy.is_alive:
                 enemy.update(dt, self.player, self.walls)
+
+                if enemy.current_attack:
+                    self.combat_system.register_attack(enemy, enemy.current_attack)
 
         self.combat_system.update(dt, self.player, active_enemies, self.walls)
 
