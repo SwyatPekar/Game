@@ -1,5 +1,5 @@
 from src.objects.enemies.enemy import Enemy
-from src.core.config import blue
+from src.core import config
 
 
 class Husk(Enemy):
@@ -17,4 +17,4 @@ class Husk(Enemy):
         }
 
     def get_color(self) -> tuple:
-        return blue
+        return config.blue
