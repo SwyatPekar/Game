@@ -23,7 +23,7 @@ class GameEngine:
         self.clock = pygame.time.Clock()
         self.running = True
 
-        self.input_handler = InputHandler(self.screen)
+        self.input_handler = InputHandler()
         self.player_renderer = PlayerRenderer()
         self.health_bar_renderer = HealthBarRenderer()
         self.projectile_renderer = ProjectileRenderer()
@@ -120,3 +120,16 @@ class GameEngine:
     def cleanup(self):
         pygame.quit()
         sys.exit()
+
+
+class game_info:
+    def __init__(self):
+        self.font = pygame.font.SysFont("Arial", 20)
+
+    def render(self, screen: pygame.Surface, wave_manager):
+        info = wave_manager.get_wave_info()
+        score = info.get('score', 0)
+        text = f"Wave: {info['wave']} | {info['state']} | Score: {score}"
+
+        rendered_text = self.font.render(text, True, config.white)
+        screen.blit(rendered_text, (10, 10))
