@@ -21,8 +21,11 @@ class Attack:
         center_x = attacker_x + attacker_width / 2
         center_y = attacker_y + attacker_height / 2
 
-        offset_x = math.cos(facing_angle) * (self.range / 2)
-        offset_y = math.sin(facing_angle) * (self.range / 2)
+        attacker_radius = max(attacker_width, attacker_height) / 2
+
+        offset_dist = attacker_radius + self.range / 2
+        offset_x = math.cos(facing_angle) * offset_dist
+        offset_y = math.sin(facing_angle) * offset_dist
 
         hitbox_x = center_x + offset_x - self.range / 2
         hitbox_y = center_y + offset_y - self.range / 2

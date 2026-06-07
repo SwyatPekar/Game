@@ -58,14 +58,15 @@ class GameEngine:
 
             self.input_handler.update()
 
-            action = self.input_handler.handle_events()
-            if action == 'quit':
+            actions = self.input_handler.handle_events()
+            if 'quit' in actions:
                 self.running = False
                 break
 
             if self.state_manager.state == "PLAYING":
                 self._update(dt)
-                self._process_action(action)
+                for action in actions:
+                    self._process_action(action)
 
                 if not self.player.is_alive:
                     print(f"Игрок погиб. Счёт: {self.wave_manager.get_wave_info().get('score', 0)}")

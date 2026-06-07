@@ -62,9 +62,11 @@ class WaveManager:
             self.timer -= config.wave_spawn_interval
 
             if self.spawn_queue:
-                enemy_type = self.spawn_queue.pop(0)
+                enemy_type = self.spawn_queue[0]
                 enemy = self._spawn_enemy(enemy_type, walls, grid)
+
                 if enemy:
+                    self.spawn_queue.pop(0)
                     self.active_enemies.append(enemy)
             else:
                 self.state = "FIGHTING"

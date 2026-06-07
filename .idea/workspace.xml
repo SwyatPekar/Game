@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="улучшил алгоритм А*, теперь враги и по диагонали ходят">
+    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Решаю проблемы с застреванием противников">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/objects/enemies/enemy.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/objects/enemies/enemy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/combat/attack.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/combat/attack.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/input_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/input_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/systems/wave_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/systems/wave_manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -326,11 +328,18 @@
       <option name="project" value="LOCAL" />
       <updated>1780846378099</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Решаю проблемы с застреванием противников">
+      <option name="closed" value="true" />
+      <created>1780847015636</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1780847015636</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="ЗАБЫЛ НАПРОЧЬ ПРО ГИТ. Последние изменения две недели назад. ЭТО КРУПНОЕ ОБНОВЛЕНИЕ - мой мвп, игра работает, но очень многое нужно отрефакторить и доделать" />
     <MESSAGE value="Пошаманил с input_handler.py" />
     <MESSAGE value="Вынес логику управления уровнями и состояниями в отдельные классы" />
     <MESSAGE value="Вынес логику отрисовки информации о волнах в отдельный класс, чтобы фпс так не проседали" />
@@ -355,6 +364,7 @@
     <MESSAGE value="Продолжаю рефакторить, на этот раз конфиг" />
     <MESSAGE value="Да здравствует простая генерация карты и А* алгоритм" />
     <MESSAGE value="улучшил алгоритм А*, теперь враги и по диагонали ходят" />
-    <option name="LAST_COMMIT_MESSAGE" value="улучшил алгоритм А*, теперь враги и по диагонали ходят" />
+    <MESSAGE value="Решаю проблемы с застреванием противников" />
+    <option name="LAST_COMMIT_MESSAGE" value="Решаю проблемы с застреванием противников" />
   </component>
 </project>
