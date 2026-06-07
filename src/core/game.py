@@ -2,6 +2,9 @@ import sys
 import pygame
 from src.core import config
 from src.core.input_handler import InputHandler
+from src.systems.status_manager import GameStateManager
+from src.systems.level_manager import LevelManager
+from src.rendering.render import WorldRenderer
 from src.rendering.entities.player_render import PlayerRenderer
 from src.rendering.effects.health_bar_render import HealthBarRenderer
 from src.rendering.effects.projectile_render import ProjectileRenderer
@@ -63,7 +66,7 @@ class GameEngine:
 
                 if not self.player.is_alive:
                     print(f"Игрок погиб. Счёт: {self.wave_manager.get_wave_info().get('score', 0)}")
-                    self.state_manager.trigger_game_over()
+                    self.state_manager.game_over()
 
             elif self.state_manager.state == "GAME_OVER":
                 if self.state_manager.update(dt):

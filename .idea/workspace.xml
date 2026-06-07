@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Вынес логику отрисовки информации о волнах в отдельный класс, чтобы фпс так не проседали">
-      <change afterPath="$PROJECT_DIR$/src/rendering/abc_render.py" afterDir="false" />
+    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="добавил метод очистки в  класс combat_system.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rendering/entities/entity_render.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rendering/entities/entity_render.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rendering/render.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rendering/render.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,7 +141,39 @@
       <option name="project" value="LOCAL" />
       <updated>1780822816536</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Перенес классы управления в папку систем, изменил класс game, но все еще над ним работаю. Вынес класс рендер, который теперь занимается отрисовкой всего">
+      <option name="closed" value="true" />
+      <created>1780823688218</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1780823688218</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Перелопатил класс combat_system.py">
+      <option name="closed" value="true" />
+      <created>1780826952323</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1780826952323</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Перелопатил класс wave_manager.py">
+      <option name="closed" value="true" />
+      <created>1780827116445</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1780827116445</updated>
+    </task>
+    <task id="LOCAL-00012" summary="добавил метод очистки в  класс combat_system.py">
+      <option name="closed" value="true" />
+      <created>1780827326142</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1780827326142</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -155,6 +184,10 @@
     <MESSAGE value="Пошаманил с input_handler.py" />
     <MESSAGE value="Вынес логику управления уровнями и состояниями в отдельные классы" />
     <MESSAGE value="Вынес логику отрисовки информации о волнах в отдельный класс, чтобы фпс так не проседали" />
-    <option name="LAST_COMMIT_MESSAGE" value="Вынес логику отрисовки информации о волнах в отдельный класс, чтобы фпс так не проседали" />
+    <MESSAGE value="Перенес классы управления в папку систем, изменил класс game, но все еще над ним работаю. Вынес класс рендер, который теперь занимается отрисовкой всего" />
+    <MESSAGE value="Перелопатил класс combat_system.py" />
+    <MESSAGE value="Перелопатил класс wave_manager.py" />
+    <MESSAGE value="добавил метод очистки в  класс combat_system.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="добавил метод очистки в  класс combat_system.py" />
   </component>
 </project>
