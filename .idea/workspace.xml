@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Продолжаю рефакторить, на этот раз health_bar_render.py" />
+    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Продолжаю рефакторить, на этот раз husk" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -250,7 +250,39 @@
       <option name="project" value="LOCAL" />
       <updated>1780837830632</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Продолжаю рефакторить, на этот раз enemy.py">
+      <option name="closed" value="true" />
+      <created>1780837953157</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1780837953157</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Продолжаю рефакторить, на этот раз player_render.py">
+      <option name="closed" value="true" />
+      <created>1780838081840</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1780838081840</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Продолжаю рефакторить, на этот раз input_handler.py">
+      <option name="closed" value="true" />
+      <created>1780838123100</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1780838123100</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Продолжаю рефакторить, на этот раз husk">
+      <option name="closed" value="true" />
+      <created>1780838189774</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1780838189774</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -270,11 +302,14 @@
     <MESSAGE value="Продолжаю рефакторить, на этот раз wave_manager.py" />
     <MESSAGE value="Продолжаю рефакторить, на этот раз config.py" />
     <MESSAGE value="Продолжаю рефакторить, на этот раз entity.py" />
-    <MESSAGE value="Продолжаю рефакторить, на этот раз enemy.py" />
     <MESSAGE value="Продолжаю рефакторить, на этот раз player.py and game" />
     <MESSAGE value="Продолжаю рефакторить, на этот раз render.py" />
     <MESSAGE value="Продолжаю рефакторить, на этот раз projectile.py" />
     <MESSAGE value="Продолжаю рефакторить, на этот раз health_bar_render.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Продолжаю рефакторить, на этот раз health_bar_render.py" />
+    <MESSAGE value="Продолжаю рефакторить, на этот раз enemy.py" />
+    <MESSAGE value="Продолжаю рефакторить, на этот раз player_render.py" />
+    <MESSAGE value="Продолжаю рефакторить, на этот раз input_handler.py" />
+    <MESSAGE value="Продолжаю рефакторить, на этот раз husk" />
+    <option name="LAST_COMMIT_MESSAGE" value="Продолжаю рефакторить, на этот раз husk" />
   </component>
 </project>

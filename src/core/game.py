@@ -16,7 +16,7 @@ class GameEngine:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((config.window_width, config.window_height))
-        icon = pygame.image.load('assets/images/icon.png')
+        icon = pygame.image.load('../assets/images/icon.png')
         pygame.display.set_caption(config.window_name)
         pygame.display.set_icon(icon)
         self.clock = pygame.time.Clock()
