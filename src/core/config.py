@@ -1,4 +1,4 @@
-# Mass effec: They Will Not Break Us
+# Mass effect: They Will Not Break Us
 
 # Окно программы
 window_name = "Mass effect: They Will Not Break Us"
@@ -42,17 +42,26 @@ player_invincible_frames = True
 player_kick_range = 40
 player_kick_damage = 15
 
-# Враги
+# Враги (базовые статы вынесены сюда для удобства расширения)
+enemy_base_width = 32
+enemy_base_height = 32
+enemy_base_speed = 100
+enemy_base_health = 50
+enemy_base_damage = 10
+enemy_base_attack_range = 40
 enemy_detection_range = 2000
 enemy_attack_cooldown = 1.0
 enemy_patrol_timer = 2.0
 health_bar_height_enemy = 4
-health_bar_offcet_y_enemy = 8
+health_bar_offset_y_enemy = 8
 
 # UI
 health_bar_width = 40
 health_bar_height = 5
 health_bar_offset_y = 10
+
+# Снаряды
+projectile_radius = 4
 
 # Отладка
 debug_mode = True

@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Провел тотальный рефакторинг для объектов и отрисовщиков">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rendering/entities/entity_render.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rendering/entities/entity_render.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/systems/wave_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/systems/wave_manager.py" afterDir="false" />
-    </list>
+    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Продолжаю рефакторить, на этот раз wave_manager.py" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -191,7 +186,15 @@
       <option name="project" value="LOCAL" />
       <updated>1780830489886</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Продолжаю рефакторить, на этот раз wave_manager.py">
+      <option name="closed" value="true" />
+      <created>1780836724834</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1780836724834</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -208,6 +211,7 @@
     <MESSAGE value="добавил метод очистки в  класс combat_system.py" />
     <MESSAGE value="Немного рефакторинга в game" />
     <MESSAGE value="Провел тотальный рефакторинг для объектов и отрисовщиков" />
-    <option name="LAST_COMMIT_MESSAGE" value="Провел тотальный рефакторинг для объектов и отрисовщиков" />
+    <MESSAGE value="Продолжаю рефакторить, на этот раз wave_manager.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="Продолжаю рефакторить, на этот раз wave_manager.py" />
   </component>
 </project>
