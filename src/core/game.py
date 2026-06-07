@@ -38,7 +38,7 @@ class GameEngine:
             self.projectile_renderer
         )
 
-        self.combat_system = CombatSystem()
+        self.combat_system = CombatSystem(config.window_width, config.window_height)
         self.wave_manager = WaveManager(config.window_width, config.window_height)
 
         self.reset_game()
@@ -90,7 +90,11 @@ class GameEngine:
         active_enemies = self.wave_manager.get_enemies()
 
         if self.player.is_alive:
-            self.player.update(dt, self.input_handler, self.walls)
+            self.player.update(
+                dt,
+                self.input_handler.keys,
+                self.input_handler.mouse_pos,
+                self.walls)
 
         for enemy in active_enemies:
             if enemy.is_alive:

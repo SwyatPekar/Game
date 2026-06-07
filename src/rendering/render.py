@@ -4,7 +4,7 @@ from src.core import config
 class WorldRenderer:
     def __init__(self, screen: pygame.Surface, player_renderer, health_bar_renderer, projectile_renderer):
         self.screen = screen
-        self.game_info = Game_Info
+        self.game_info = Game_Info()
 
         self.player_renderer = player_renderer
         self.health_bar_renderer = health_bar_renderer

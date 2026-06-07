@@ -1,12 +1,11 @@
-import pygame
 import math
-from abc import ABC
+import pygame
 from src.objects.entity import Entity
 from src.combat.attack import Attack
 from src.core.config import enemy_detection_range, enemy_attack_cooldown, enemy_patrol_timer
 
 
-class Enemy(Entity, ABC):
+class Enemy(Entity):
     def __init__(self, x: float, y: float, enemy_type: str):
         stats = self.get_enemy_stats(enemy_type)
         super().__init__(x, y, stats['width'], stats['height'], stats['speed'])
@@ -75,7 +74,7 @@ class Enemy(Entity, ABC):
     def _attack_player(self, dt: float, player: Entity):
         if self.attack_cooldown_timer <= 0:
             if self.distance_to(player) <= self.attack_range:
-                if not player.invincible:
+                if not hasattr(player, 'invincible') or not player.invincible:
                     player.take_damage(self.damage)
                     print(f"Враг {self.enemy_type} нанёс {self.damage} урона! HP игрока: {player.health}")
 

@@ -1,4 +1,4 @@
-from src.objects.enemies import Enemy
+from src.objects.enemies.enemy import Enemy
 from src.core.config import blue
 
 

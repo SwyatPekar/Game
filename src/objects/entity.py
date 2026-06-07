@@ -1,9 +1,8 @@
 import pygame
 import math
-from abc import ABC, abstractmethod
 
 
-class Entity(ABC):
+class Entity:
     def __init__(self, x: float, y: float, width: int, height: int, speed: float):
         self.x = x
         self.y = y
@@ -16,8 +15,7 @@ class Entity(ABC):
         self.velocity_x = 0
         self.velocity_y = 0
 
-    @abstractmethod
-    def update(self, dt: float):
+    def update(self, dt: float, *args, **kwargs):
         pass
 
     def draw(self, screen: pygame.Surface, renderer=None):
