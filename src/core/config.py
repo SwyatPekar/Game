@@ -42,7 +42,7 @@ player_invincible_frames = True
 player_kick_range = 40
 player_kick_damage = 15
 
-# Враги (базовые статы вынесены сюда для удобства расширения)
+# Враги
 enemy_base_width = 32
 enemy_base_height = 32
 enemy_base_speed = 100
