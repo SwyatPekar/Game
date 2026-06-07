@@ -2,15 +2,12 @@ import pygame
 from src.core import config
 
 class WorldRenderer:
-    def __init__(self, screen: pygame.Surface, player_renderer, health_bar_renderer, projectile_renderer):
+    def __init__(self, screen: pygame.Surface, renderers: dict):
         self.screen = screen
+        self.renderers = renderers
         self.game_info = Game_Info()
 
-        self.player_renderer = player_renderer
-        self.health_bar_renderer = health_bar_renderer
-        self.projectile_renderer = projectile_renderer
-
-    def render(self, walls, enemies, projectiles, player, wave_manager):
+    def render(self, walls, enemies, projectiles, player, wave_manager, renderers: dict):
         self.screen.fill(config.dark_blue)
 
         for wall in walls:
@@ -18,13 +15,13 @@ class WorldRenderer:
 
         for enemy in enemies:
             if enemy.is_alive:
-                enemy.draw(self.screen)
+                enemy.draw(self.screen, renderers)
 
         for projectile in projectiles:
-            self.projectile_renderer.render(self.screen, projectile)
+            self.renderers['projectile'].render(self.screen, projectile)
 
         if player.is_alive:
-            player.draw(self.screen, self.player_renderer, self.health_bar_renderer)
+            player.draw(self.screen, renderers)
 
         self.game_info.render(self.screen, wave_manager)
 
