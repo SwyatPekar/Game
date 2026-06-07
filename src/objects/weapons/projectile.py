@@ -1,5 +1,6 @@
 import math
 import pygame
+from src.core import config
 
 
 class Projectile:
@@ -11,7 +12,7 @@ class Projectile:
         self.damage = damage
         self.owner_type = owner_type
 
-        self.radius = 4
+        self.radius = config.projectile_radius
         self.is_active = True
 
     def update(self, dt: float):
