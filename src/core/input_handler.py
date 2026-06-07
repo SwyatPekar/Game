@@ -1,10 +1,13 @@
 import pygame
 
-
 class InputHandler:
+    def __init__(self):
+        self.keys = None
+        self.mouse_pos = (0, 0)
 
-    def __init__(self, screen):
-        self.screen = screen
+    def update(self):
+        self.keys = pygame.key.get_pressed()
+        self.mouse_pos = pygame.mouse.get_pos()
 
     def handle_events(self) -> str | None:
         for event in pygame.event.get():
@@ -18,3 +21,11 @@ class InputHandler:
                 return 'kick'
 
         return None
+
+    def get_mouse_pos(self) -> tuple:
+        return self.mouse_pos
+
+    def is_key_pressed(self, key: int) -> bool:
+        if self.keys is not None:
+            return self.keys[key]
+        return False
