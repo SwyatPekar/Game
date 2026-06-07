@@ -45,25 +45,25 @@ class WaveManager:
         count = config.initial_enemies_count + (self.current_wave * config.enemies_increment)
         self.spawn_queue = ["husk"] * count
 
-    def update(self, dt: float, walls: list):
+    def update(self, dt: float, walls: list, grid: list):
         self.active_enemies = [e for e in self.active_enemies if e.is_alive]
 
         self.timer += dt
 
         if self.state == "SPAWNING":
-            self._handle_spawning(dt, walls)
+            self._handle_spawning(dt, walls, grid)
         elif self.state == "FIGHTING":
             self._handle_fighting()
         elif self.state == "RESTING":
             self._handle_resting()
 
-    def _handle_spawning(self, dt: float, walls: list):
+    def _handle_spawning(self, dt: float, walls: list, grid: list):
         if self.timer >= config.wave_spawn_interval:
             self.timer -= config.wave_spawn_interval
 
             if self.spawn_queue:
                 enemy_type = self.spawn_queue.pop(0)
-                enemy = self._spawn_enemy(enemy_type, walls)
+                enemy = self._spawn_enemy(enemy_type, walls, grid)
                 if enemy:
                     self.active_enemies.append(enemy)
             else:
@@ -83,7 +83,7 @@ class WaveManager:
             self.state = "SPAWNING"
             self.timer = 0.0
 
-    def _spawn_enemy(self, enemy_type: str, walls: list):
+    def _spawn_enemy(self, enemy_type: str, walls: list, grid: list):
         max_attempts = 10
 
         enemy_class = self.enemy_factory.get(enemy_type, Husk)

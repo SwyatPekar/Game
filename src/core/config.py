@@ -77,3 +77,20 @@ wave_rest_duration = 10.0
 wave_spawn_interval = 1.5
 initial_enemies_count = 5
 enemies_increment = 2
+
+# генерация уровня
+tile_size = 40
+map_width_tiles = 30
+map_height_tiles = 20
+
+# Типы тайлов
+tile_empty = 0
+tile_wall = 1
+tile_rubble = 2
+
+# Цвета для отладки и рендера тайлов
+tile_colors = {
+    tile_empty: (30, 30, 35),      # Темный асфальт
+    tile_wall: (80, 80, 90),       # Серый бетон
+    tile_rubble: (101, 67, 33)     # Коричневые обломки
+}

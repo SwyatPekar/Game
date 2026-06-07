@@ -47,7 +47,7 @@ class GameEngine:
         self.reset_game()
 
     def reset_game(self):
-        self.player, self.walls = self.level_manager.load_level()
+        self.player, self.walls, self.grid = self.level_manager.load_level()
         self.wave_manager.reset()
         self.combat_system.reset()
         self.state_manager.reset()
@@ -90,7 +90,7 @@ class GameEngine:
         if self.wave_manager.state == "WAITING":
             self.wave_manager.start_game()
 
-        self.wave_manager.update(dt, self.walls)
+        self.wave_manager.update(dt, self.walls, self.grid)
         active_enemies = self.wave_manager.get_enemies()
 
         if self.player.is_alive:
@@ -102,7 +102,7 @@ class GameEngine:
 
         for enemy in active_enemies:
             if enemy.is_alive:
-                enemy.update(dt, self.player, self.walls)
+                enemy.update(dt, self.player, self.walls, self.grid)
 
                 if enemy.current_attack:
                     self.combat_system.register_attack(enemy, enemy.current_attack)
