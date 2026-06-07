@@ -87,3 +87,7 @@ class CombatSystem:
     def _cleanup(self):
         self.projectiles = [p for p in self.projectiles if p.is_active]
         self.active_attacks = [a for a in self.active_attacks if a['attack'].is_active]
+
+    def reset(self):
+        self.projectiles.clear()
+        self.active_attacks.clear()
