@@ -1,8 +1,9 @@
 import pygame
 
+
 class InputHandler:
     def __init__(self):
-        self.keys = None
+        self.keys = pygame.key.get_pressed()
         self.mouse_pos = (0, 0)
 
     def update(self):
@@ -26,6 +27,4 @@ class InputHandler:
         return self.mouse_pos
 
     def is_key_pressed(self, key: int) -> bool:
-        if self.keys is not None:
-            return self.keys[key]
-        return False
+        return self.keys[key]
