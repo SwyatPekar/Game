@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Отрефакторил простые моменты">
-      <change beforePath="$PROJECT_DIR$/src/objects/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/objects/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/debug_config.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/test_walls.py" beforeDir="false" />
+    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Удалил не нужный уже тестовый код">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/combat/attack.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/combat/attack.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/systems/level_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/systems/level_generator.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -342,11 +342,18 @@
       <option name="project" value="LOCAL" />
       <updated>1780850079432</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Удалил не нужный уже тестовый код">
+      <option name="closed" value="true" />
+      <created>1780850656624</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1780850656624</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Вынес логику управления уровнями и состояниями в отдельные классы" />
     <MESSAGE value="Вынес логику отрисовки информации о волнах в отдельный класс, чтобы фпс так не проседали" />
     <MESSAGE value="Перенес классы управления в папку систем, изменил класс game, но все еще над ним работаю. Вынес класс рендер, который теперь занимается отрисовкой всего" />
     <MESSAGE value="Перелопатил класс combat_system.py" />
@@ -371,6 +378,7 @@
     <MESSAGE value="улучшил алгоритм А*, теперь враги и по диагонали ходят" />
     <MESSAGE value="Решаю проблемы с застреванием противников" />
     <MESSAGE value="Отрефакторил простые моменты" />
-    <option name="LAST_COMMIT_MESSAGE" value="Отрефакторил простые моменты" />
+    <MESSAGE value="Удалил не нужный уже тестовый код" />
+    <option name="LAST_COMMIT_MESSAGE" value="Удалил не нужный уже тестовый код" />
   </component>
 </project>

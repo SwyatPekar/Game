@@ -1,4 +1,5 @@
 import random
+import collections
 import pygame
 from src.core import config
 from src.objects.player import Player
@@ -44,6 +45,24 @@ class LevelGenerator:
         for dy in range(-2, 3):
             for dx in range(-2, 3):
                 grid[center_y + dy][center_x + dx] = config.tile_empty
+
+        visited = set()
+        queue = collections.deque([(center_x, center_y)])
+        visited.add((center_x, center_y))
+
+        while queue:
+            cx, cy = queue.popleft()
+            for dy, dx in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                nx, ny = cx + dx, cy + dy
+                if 0 <= nx < width and 0 <= ny < height and (nx, ny) not in visited:
+                    if grid[ny][nx] != config.tile_wall:
+                        visited.add((nx, ny))
+                        queue.append((nx, ny))
+
+        for y in range(height):
+            for x in range(width):
+                if (x, y) not in visited:
+                    grid[y][x] = config.tile_wall
 
         walls = []
         for y in range(height):
