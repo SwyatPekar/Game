@@ -2,8 +2,8 @@
 
 # Окно программы
 window_name = "Mass effect: They Will Not Break Us"
-window_width = 1500
-window_height = 900
+window_width = 1900
+window_height = 1040
 fps = 60
 
 # Цвета
@@ -80,8 +80,8 @@ enemies_increment = 2
 
 # генерация уровня
 tile_size = 40
-map_width_tiles = 30
-map_height_tiles = 20
+map_width_tiles = 47
+map_height_tiles = 26
 
 # Типы тайлов
 tile_empty = 0

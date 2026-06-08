@@ -4,10 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Продолжаю улучшать левел генератор">
+    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Я решил отказаться от этих пещер и теперь для левел генератора использую BSP алгоритм, пока только домики">
+      <change afterPath="$PROJECT_DIR$/src/systems/level_generator_system/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/systems/level_generator_system/city_generator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/systems/level_generator_system/cover_placer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/systems/level_generator_system/destruction_engine.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/systems/level_generator_system/level_generator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/systems/level_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/systems/level_generator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/systems/level_generator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/systems/level_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/systems/level_manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +55,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Python.config.executor": "Run",
     "Python.game.executor": "Run",
+    "Python.level_generator.executor": "Run",
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -358,11 +365,18 @@
       <option name="project" value="LOCAL" />
       <updated>1780914522426</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Я решил отказаться от этих пещер и теперь для левел генератора использую BSP алгоритм, пока только домики">
+      <option name="closed" value="true" />
+      <created>1780916551190</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1780916551190</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Перенес классы управления в папку систем, изменил класс game, но все еще над ним работаю. Вынес класс рендер, который теперь занимается отрисовкой всего" />
     <MESSAGE value="Перелопатил класс combat_system.py" />
     <MESSAGE value="Перелопатил класс wave_manager.py" />
     <MESSAGE value="добавил метод очистки в  класс combat_system.py" />
@@ -387,6 +401,7 @@
     <MESSAGE value="Отрефакторил простые моменты" />
     <MESSAGE value="Удалил не нужный уже тестовый код" />
     <MESSAGE value="Продолжаю улучшать левел генератор" />
-    <option name="LAST_COMMIT_MESSAGE" value="Продолжаю улучшать левел генератор" />
+    <MESSAGE value="Я решил отказаться от этих пещер и теперь для левел генератора использую BSP алгоритм, пока только домики" />
+    <option name="LAST_COMMIT_MESSAGE" value="Я решил отказаться от этих пещер и теперь для левел генератора использую BSP алгоритм, пока только домики" />
   </component>
 </project>

@@ -1,4 +1,4 @@
-from src.systems.level_generator import LevelGenerator
+from src.systems.level_generator_system.level_generator import LevelGenerator
 
 class LevelManager:
     @staticmethod
