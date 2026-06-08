@@ -2,8 +2,8 @@
 
 # Окно программы
 window_name = "Mass effect: They Will Not Break Us"
-window_width = 1200
-window_height = 800
+window_width = 1500
+window_height = 900
 fps = 60
 
 # Цвета
