@@ -3,11 +3,10 @@ import math
 
 
 class MeleeAttack:
-    def __init__(self, damage: int, attack_range: float, duration: float = 0.1, is_melee: bool = True):
+    def __init__(self, damage: int, attack_range: float, duration: float = 0.1):
         self.damage = damage
         self.attack_range = attack_range
         self.duration = duration
-        self.is_melee = is_melee
         self.is_active = True
         self.timer = duration
 
