@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Финальное решение по системе генерации карты">
-      <change afterPath="$PROJECT_DIR$/src/systems/combat_system/combat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/combat/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/systems/combat_system/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/combat/attack.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/objects/enemies/enemy.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/objects/enemies/enemy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/objects/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/objects/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/systems/combat_system.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/systems/combat_system/attack.py" afterDir="false" />
-    </list>
+    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Рефакторинг" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -381,11 +371,26 @@
       <option name="project" value="LOCAL" />
       <updated>1780930116444</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Рефакторинг">
+      <option name="closed" value="true" />
+      <created>1781009301147</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1781009301147</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Рефакторинг">
+      <option name="closed" value="true" />
+      <created>1781009618231</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1781009618231</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Перелопатил класс wave_manager.py" />
     <MESSAGE value="добавил метод очистки в  класс combat_system.py" />
     <MESSAGE value="Немного рефакторинга в game" />
     <MESSAGE value="Провел тотальный рефакторинг для объектов и отрисовщиков" />
@@ -410,6 +415,7 @@
     <MESSAGE value="Продолжаю улучшать левел генератор" />
     <MESSAGE value="Я решил отказаться от этих пещер и теперь для левел генератора использую BSP алгоритм, пока только домики" />
     <MESSAGE value="Финальное решение по системе генерации карты" />
-    <option name="LAST_COMMIT_MESSAGE" value="Финальное решение по системе генерации карты" />
+    <MESSAGE value="Рефакторинг" />
+    <option name="LAST_COMMIT_MESSAGE" value="Рефакторинг" />
   </component>
 </project>

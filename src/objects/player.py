@@ -144,7 +144,7 @@ class Player(Entity):
     def kick(self) -> MeleeAttack:
         return MeleeAttack(
             damage=config.player_kick_damage,
-            range=config.player_kick_range,
+            attack_range=config.player_kick_range,
             duration=0.15,
             is_melee=True
         )
