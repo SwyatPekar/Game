@@ -34,6 +34,7 @@ bullet_speed = 600
 
 # Перекат
 player_roll_speed = 400
+player_roll_invincibility = 0.4
 player_roll_duration = 0.2
 player_roll_cooldown = 1.0
 player_invincible_frames = True

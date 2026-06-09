@@ -13,6 +13,7 @@ class Player(Entity):
         self.max_health = config.player_max_health
         self.damage = config.player_damage
         self.roll_cooldown = 0
+        self.invincibility_timer = 0
         self.roll_duration = 0
         self.is_rolling = False
         self.roll_speed = config.player_roll_speed
@@ -31,6 +32,11 @@ class Player(Entity):
 
         if self.roll_cooldown > 0:
             self.roll_cooldown -= dt
+
+        if self.invincibility_timer > 0:
+            self.invincibility_timer -= dt
+            if self.invincibility_timer <= 0:
+                self.invincible = False
 
         if self.shoot_cooldown > 0:
             self.shoot_cooldown -= dt
@@ -90,6 +96,7 @@ class Player(Entity):
     def start_roll(self, dx: float, dy: float):
         self.is_rolling = True
         self.roll_duration = config.player_roll_duration
+        self.invincibility_timer = config.player_roll_invincibility
         self.roll_cooldown = config.player_roll_cooldown
         self.roll_direction = (dx, dy)
         self.invincible = True
@@ -99,7 +106,6 @@ class Player(Entity):
 
         if self.roll_duration <= 0:
             self.is_rolling = False
-            self.invincible = False
         else:
             dx, dy = self.roll_direction
             new_x = self.x + dx * self.roll_speed * dt
