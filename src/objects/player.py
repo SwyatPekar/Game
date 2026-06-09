@@ -4,6 +4,7 @@ from src.core import config
 from src.objects.entity import Entity
 from src.objects.weapons.projectile import Projectile
 from src.systems.combat_system.melee_attack import MeleeAttack
+from src.core.input_handler import InputHandler
 
 class Player(Entity):
     def __init__(self, x: float, y: float):
@@ -19,15 +20,14 @@ class Player(Entity):
         self.invincible = False
         self.shoot_cooldown = 0.0
         self.shoot_cooldown_duration = 0.2
-
         self.facing_angle = 0
 
-    def update(self, dt: float, keys, mouse_pos: tuple, walls: list):
+    def update(self, dt: float, input_handler: 'InputHandler', walls: list):
         if self.is_rolling:
             self._update_roll(dt, walls)
         else:
-            self._handle_movement(keys, dt, walls)
-            self._handle_rolling_input(keys)
+            self._handle_movement(input_handler, dt, walls)
+            self._handle_rolling_input(input_handler)
 
         if self.roll_cooldown > 0:
             self.roll_cooldown -= dt
@@ -35,15 +35,15 @@ class Player(Entity):
         if self.shoot_cooldown > 0:
             self.shoot_cooldown -= dt
 
-        self._update_facing_angle(mouse_pos)
+        self._update_facing_angle(input_handler.get_mouse_pos())
 
-    def _handle_movement(self, keys, dt: float, walls: list):
+    def _handle_movement(self, input_handler: 'InputHandler', dt: float, walls: list):
         dx, dy = 0, 0
 
-        if keys[pygame.K_w] or keys[pygame.K_UP]: dy = -1
-        if keys[pygame.K_s] or keys[pygame.K_DOWN]: dy = 1
-        if keys[pygame.K_a] or keys[pygame.K_LEFT]: dx = -1
-        if keys[pygame.K_d] or keys[pygame.K_RIGHT]: dx = 1
+        if input_handler.is_key_pressed(pygame.K_w) or input_handler.is_key_pressed(pygame.K_UP): dy = -1
+        if input_handler.is_key_pressed(pygame.K_s) or input_handler.is_key_pressed(pygame.K_DOWN): dy = 1
+        if input_handler.is_key_pressed(pygame.K_a) or input_handler.is_key_pressed(pygame.K_LEFT): dx = -1
+        if input_handler.is_key_pressed(pygame.K_d) or input_handler.is_key_pressed(pygame.K_RIGHT): dx = 1
 
         if dx != 0 or dy != 0:
             length = math.sqrt(dx ** 2 + dy ** 2)
@@ -67,16 +67,16 @@ class Player(Entity):
                 return True
         return False
 
-    def _handle_rolling_input(self, keys):
-        if not keys[pygame.K_LSHIFT] and not keys[pygame.K_RSHIFT]:
+    def _handle_rolling_input(self, input_handler: 'InputHandler'):
+        if not input_handler.is_key_pressed(pygame.K_LSHIFT) and not input_handler.is_key_pressed(pygame.K_RSHIFT):
             return
 
         if self.roll_cooldown <= 0:
             dx, dy = 0, 0
-            if keys[pygame.K_w] or keys[pygame.K_UP]: dy = -1
-            if keys[pygame.K_s] or keys[pygame.K_DOWN]: dy = 1
-            if keys[pygame.K_a] or keys[pygame.K_LEFT]: dx = -1
-            if keys[pygame.K_d] or keys[pygame.K_RIGHT]: dx = 1
+            if input_handler.is_key_pressed(pygame.K_w) or input_handler.is_key_pressed(pygame.K_UP): dy = -1
+            if input_handler.is_key_pressed(pygame.K_s) or input_handler.is_key_pressed(pygame.K_DOWN): dy = 1
+            if input_handler.is_key_pressed(pygame.K_a) or input_handler.is_key_pressed(pygame.K_LEFT): dx = -1
+            if input_handler.is_key_pressed(pygame.K_d) or input_handler.is_key_pressed(pygame.K_RIGHT): dx = 1
 
             if dx == 0 and dy == 0:
                 dx = math.cos(self.facing_angle)

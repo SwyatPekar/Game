@@ -95,11 +95,7 @@ class GameEngine:
         active_enemies = self.wave_manager.get_enemies()
 
         if self.player.is_alive:
-            self.player.update(
-                dt,
-                self.input_handler.keys,
-                self.input_handler.mouse_pos,
-                self.walls)
+            self.player.update(dt, self.input_handler, self.walls)
 
         for enemy in active_enemies:
             if enemy.is_alive:

@@ -1,6 +1,5 @@
 import pygame
 
-
 class InputHandler:
     def __init__(self):
         self.keys = pygame.key.get_pressed()
@@ -25,4 +24,4 @@ class InputHandler:
         return self.mouse_pos
 
     def is_key_pressed(self, key: int) -> bool:
-        return self.keys[key]
+        return bool(self.keys[key])

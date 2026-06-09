@@ -1,6 +1,7 @@
 import math
 import random
 import pygame
+from collections import deque
 from src.objects.entity import Entity
 from src.systems.combat_system.melee_attack import MeleeAttack
 from src.core import config
@@ -26,7 +27,7 @@ class Enemy(Entity):
         self.patrol_direction = (1, 0)
         self.current_attack: MeleeAttack = None
 
-        self.path = []
+        self.path = deque()
         self.path_timer = 0.0
         self.path_update_interval = 0.5
         self.current_target_tile = None
@@ -53,15 +54,14 @@ class Enemy(Entity):
 
         if player and player.is_alive:
             distance = self.distance_to(player)
-            self._update_ai_state(distance, player)
-
+            self._update_ai_state(distance)
             self._execute_ai_behavior(dt, player, walls, grid)
 
     def _execute_ai_behavior(self, dt: float, player: Entity, walls: list, grid: list):
         if self.state == "chase":
             self._chase_player_smart(dt, player, walls, grid)
         elif self.state == "attack":
-            self._attack_player(dt, player)
+            self._attack_player(player)
         elif self.state == "patrol":
             self._patrol(dt, walls)
 
@@ -76,16 +76,13 @@ class Enemy(Entity):
 
     def _chase_player_smart(self, dt: float, player: Entity, walls: list, grid: list):
         self.path_timer -= dt
-        if self.path_timer <= 0 or self.current_target_tile != self._get_tile(player.x, player.y):
+        target_tile = self._get_tile(player.x, player.y)
+
+        if self.path_timer <= 0 or self.current_target_tile != target_tile:
             self.path_timer = self.path_update_interval
-            self.current_target_tile = self._get_tile(player.x, player.y)
-
+            self.current_target_tile = target_tile
             start_tile = self._get_tile(self.x, self.y)
-            self.path = AStar.find_path(grid, start_tile, self.current_target_tile)
-
-        if not hasattr(self, 'last_position'):
-            self.last_position = (self.x, self.y)
-            self.stuck_timer = 0.0
+            self.path = deque(AStar.find_path(grid, start_tile, target_tile))
 
         distance_moved = math.sqrt((self.x - self.last_position[0]) ** 2 + (self.y - self.last_position[1]) ** 2)
         self.last_position = (self.x, self.y)
@@ -96,48 +93,26 @@ class Enemy(Entity):
             self.stuck_timer = 0.0
 
         if self.stuck_timer > 0.5:
-            self.path = []
+            self.path.clear()
             self.stuck_timer = 0.0
 
         if len(self.path) > 1:
-            target_tile = self.path[1]
-
-            target_x = target_tile[0] * config.tile_size + config.tile_size / 2
-            target_y = target_tile[1] * config.tile_size + config.tile_size / 2
+            target_tile_pos = self.path[1]
+            target_x = target_tile_pos[0] * config.tile_size + config.tile_size / 2
+            target_y = target_tile_pos[1] * config.tile_size + config.tile_size / 2
 
             dx = target_x - (self.x + self.width / 2)
             dy = target_y - (self.y + self.height / 2)
-
             distance_to_target = math.sqrt(dx ** 2 + dy ** 2)
 
             if distance_to_target < 15:
-                self.path.pop(0)
+                self.path.popleft()  # Идиома для deque
                 return
 
             if dx != 0 or dy != 0:
                 length = math.sqrt(dx ** 2 + dy ** 2)
                 dx, dy = dx / length, dy / length
-
-                new_x = self.x + dx * self.speed * dt
-                new_y = self.y + dy * self.speed * dt
-
-                test_rect = pygame.Rect(new_x, new_y, self.width, self.height)
-                can_move = not any(test_rect.colliderect(wall) for wall in walls)
-
-                if can_move:
-                    self.x = new_x
-                    self.y = new_y
-                else:
-                    test_rect_x = pygame.Rect(new_x, self.y, self.width, self.height)
-                    can_move_x = not any(test_rect_x.colliderect(wall) for wall in walls)
-
-                    test_rect_y = pygame.Rect(self.x, new_y, self.width, self.height)
-                    can_move_y = not any(test_rect_y.colliderect(wall) for wall in walls)
-
-                    if can_move_x and not can_move_y:
-                        self.x = new_x
-                    elif can_move_y and not can_move_x:
-                        self.y = new_y
+                self._move_with_collision(dx, dy, dt, walls)
         else:
             self._chase_player(dt, player, walls)
 
@@ -146,7 +121,7 @@ class Enemy(Entity):
         ty = int((py + self.height / 2) // config.tile_size)
         return (tx, ty)
 
-    def _update_ai_state(self, distance: float, player: Entity):
+    def _update_ai_state(self, distance: float):
         if distance <= self.attack_range:
             self.state = "attack"
         elif distance <= self.detection_range:
@@ -154,11 +129,9 @@ class Enemy(Entity):
         else:
             self.state = "patrol"
 
-    def _attack_player(self, dt: float, player: Entity):
+    def _attack_player(self, player: Entity):
         if self.attack_cooldown_timer <= 0:
-            if self.distance_to(player) <= self.attack_range:
-                self.current_attack = self.attack(player)
-
+            self.current_attack = self.attack(player)
             self.attack_cooldown_timer = config.enemy_attack_cooldown
 
     def attack(self, target: Entity) -> MeleeAttack:
@@ -173,13 +146,11 @@ class Enemy(Entity):
         self.patrol_timer -= dt
 
         if self.patrol_timer <= 0:
-            self.patrol_direction = (random.uniform(-1, 1), random.uniform(-1, 1))
-            length = math.sqrt(self.patrol_direction[0] ** 2 + self.patrol_direction[1] ** 2)
+            dx = random.uniform(-1, 1)
+            dy = random.uniform(-1, 1)
+            length = math.sqrt(dx ** 2 + dy ** 2)
             if length > 0:
-                self.patrol_direction = (
-                    self.patrol_direction[0] / length,
-                    self.patrol_direction[1] / length
-                )
+                self.patrol_direction = (dx / length, dy / length)
             self.patrol_timer = config.enemy_patrol_timer
 
         dx, dy = self.patrol_direction
@@ -187,19 +158,16 @@ class Enemy(Entity):
 
     def _move_with_collision(self, dx: float, dy: float, dt: float, walls: list):
         new_x = self.x + dx * self.speed * dt
-        new_y = self.y + dy * self.speed * dt
-
-        rect = pygame.Rect(new_x, new_y, self.width, self.height)
-        collision = False
-
-        for wall in walls:
-            if rect.colliderect(wall):
-                collision = True
-                break
-
-        if not collision:
+        if not self._check_wall_collision(new_x, self.y, walls):
             self.x = new_x
+
+        new_y = self.y + dy * self.speed * dt
+        if not self._check_wall_collision(self.x, new_y, walls):
             self.y = new_y
+
+    def _check_wall_collision(self, x: float, y: float, walls: list) -> bool:
+        rect = pygame.Rect(x, y, self.width, self.height)
+        return any(rect.colliderect(wall) for wall in walls)
 
     def draw(self, screen: pygame.Surface, renderers: dict = None):
         color = self.get_color()
@@ -217,7 +185,6 @@ class Enemy(Entity):
                 font = pygame.font.SysFont("Arial", 12)
                 text = font.render(self.state, True, config.white)
                 screen.blit(text, (self.x, self.y - 20))
-
                 pygame.draw.circle(screen, config.cyan, (center_x, center_y), int(self.detection_range), 1)
 
             if config.show_collision_boxes:
@@ -226,12 +193,3 @@ class Enemy(Entity):
 
     def get_color(self) -> tuple:
         return (255, 0, 0)
-
-    def _draw_health_bar(self, screen: pygame.Surface):
-        bar_width = self.width
-        bar_height = config.health_bar_height_enemy
-        bar_y = self.y - config.health_bar_offset_y_enemy
-
-        pygame.draw.rect(screen, config.red, (self.x, bar_y, bar_width, bar_height))
-        health_width = int(bar_width * (self.health / self.max_health))
-        pygame.draw.rect(screen, config.green, (self.x, bar_y, health_width, bar_height))
