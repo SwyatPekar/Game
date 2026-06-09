@@ -2,7 +2,6 @@ import heapq
 import math
 from src.core import config
 
-
 class AStar:
     @staticmethod
     def find_path(grid, start, goal):
@@ -52,9 +51,6 @@ class AStar:
 
                 is_diagonal = (nx != current[0] and ny != current[1])
                 step_cost = 1.414 if is_diagonal else 1.0
-
-                if grid[ny][nx] == config.tile_rubble:
-                    step_cost *= 1.5
 
                 tentative_g_score = g_score[current] + step_cost
 

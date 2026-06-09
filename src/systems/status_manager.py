@@ -1,3 +1,5 @@
+from src.core import config
+
 class GameStateManager:
     def __init__(self):
         self.state = "PLAYING"
@@ -5,7 +7,7 @@ class GameStateManager:
 
     def game_over(self):
         self.state = "GAME_OVER"
-        self.death_timer = 1.5
+        self.death_timer = config.game_over_delay
 
     def update(self, dt: float):
         if self.state == "GAME_OVER":

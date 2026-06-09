@@ -3,7 +3,7 @@ import pygame
 from src.core import config
 from src.core.input_handler import InputHandler
 from src.systems.status_manager import GameStateManager
-from src.systems.level_manager import LevelManager
+from src.systems.level_generator_system.level_generator import LevelGenerator
 from src.rendering.render import WorldRenderer
 from src.rendering.entities.enemy_render import EnemyRenderer
 from src.rendering.entities.player_render import PlayerRenderer
@@ -25,7 +25,7 @@ class GameEngine:
 
         self.input_handler = InputHandler()
         self.state_manager = GameStateManager()
-        self.level_manager = LevelManager()
+        self.level_generator = LevelGenerator()
 
         self.player_renderer = PlayerRenderer()
         self.enemy_renderer = EnemyRenderer()
@@ -50,7 +50,7 @@ class GameEngine:
         self.reset_game()
 
     def reset_game(self):
-        self.player, self.walls, self.grid = self.level_manager.load_level()
+        self.player, self.walls, self.grid = LevelGenerator.generate()
         self.wave_manager.reset()
         self.combat_system.reset()
         self.state_manager.reset()

@@ -34,6 +34,8 @@ class Enemy(Entity):
         self.last_position = (x, y)
         self.stuck_timer = 0.0
 
+        self.facing_angle = 0  # <-- ДОБАВЛЕНО
+
     def get_enemy_stats(self, enemy_type: str) -> dict:
         return {
             'width': config.enemy_base_width,
@@ -55,7 +57,13 @@ class Enemy(Entity):
         if player and player.is_alive:
             distance = self.distance_to(player)
             self._update_ai_state(distance)
+            self._update_facing_angle(player)  # <-- ДОБАВЛЕНО
             self._execute_ai_behavior(dt, player, walls, grid)
+
+    def _update_facing_angle(self, player: Entity):  # <-- ДОБАВЛЕН МЕТОД
+        dx = player.x - (self.x + self.width / 2)
+        dy = player.y - (self.y + self.height / 2)
+        self.facing_angle = math.atan2(dy, dx)
 
     def _execute_ai_behavior(self, dt: float, player: Entity, walls: list, grid: list):
         if self.state == "chase":
@@ -106,7 +114,7 @@ class Enemy(Entity):
             distance_to_target = math.sqrt(dx ** 2 + dy ** 2)
 
             if distance_to_target < 15:
-                self.path.popleft()  # Идиома для deque
+                self.path.popleft()
                 return
 
             if dx != 0 or dy != 0:

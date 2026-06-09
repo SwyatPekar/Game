@@ -4,11 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Рефакторинг">
-      <change afterPath="$PROJECT_DIR$/src/rendering/entities/enemy_render.py" afterDir="false" />
+    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Разделил ответственность отрисовки для врагов">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/objects/enemies/enemy.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/objects/enemies/enemy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/systems/a_star.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/systems/a_star.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/systems/level_generator_system/destruction_engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/systems/level_generator_system/destruction_engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/systems/status_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/systems/status_manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -417,11 +420,18 @@
       <option name="project" value="LOCAL" />
       <updated>1781018054737</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="Разделил ответственность отрисовки для врагов">
+      <option name="closed" value="true" />
+      <created>1781019672315</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1781019672315</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="добавил метод очистки в  класс combat_system.py" />
     <MESSAGE value="Немного рефакторинга в game" />
     <MESSAGE value="Провел тотальный рефакторинг для объектов и отрисовщиков" />
     <MESSAGE value="Продолжаю рефакторить, на этот раз wave_manager.py" />
@@ -446,6 +456,7 @@
     <MESSAGE value="Я решил отказаться от этих пещер и теперь для левел генератора использую BSP алгоритм, пока только домики" />
     <MESSAGE value="Финальное решение по системе генерации карты" />
     <MESSAGE value="Рефакторинг" />
-    <option name="LAST_COMMIT_MESSAGE" value="Рефакторинг" />
+    <MESSAGE value="Разделил ответственность отрисовки для врагов" />
+    <option name="LAST_COMMIT_MESSAGE" value="Разделил ответственность отрисовки для врагов" />
   </component>
 </project>

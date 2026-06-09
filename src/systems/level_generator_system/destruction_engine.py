@@ -64,7 +64,7 @@ class DestructionEngine:
 
     @staticmethod
     def _cleanup_isolated_walls(grid, width, height):
-        for _ in range(1):
+        for _ in range(3):
             to_remove = []
             for y in range(1, height - 1):
                 for x in range(1, width - 1):

@@ -83,6 +83,9 @@ tile_size = 40
 map_width_tiles = 47
 map_height_tiles = 26
 
+# Для состояний игры
+game_over_delay = 1.5
+
 # Типы тайлов
 tile_empty = 0
 tile_wall = 1
