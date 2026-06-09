@@ -2,7 +2,7 @@ import math
 import random
 import pygame
 from src.objects.entity import Entity
-from src.combat.attack import Attack
+from src.systems.combat_system.attack import Attack
 from src.core import config
 from src.systems.a_star import AStar
 

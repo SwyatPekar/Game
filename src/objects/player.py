@@ -3,7 +3,7 @@ import pygame
 from src.core import config
 from src.objects.entity import Entity
 from src.objects.weapons.projectile import Projectile
-from src.combat.attack import Attack
+from src.systems.combat_system.attack import Attack
 
 class Player(Entity):
     def __init__(self, x: float, y: float):

@@ -1,10 +1,4 @@
-import pygame
 from typing import List
-
-from src.objects.weapons.projectile import Projectile
-from src.combat.attack import Attack
-from src.core.config import window_width, window_height
-
 
 class CombatSystem:
     def __init__(self, window_width: int, window_height: int):

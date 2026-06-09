@@ -8,7 +8,7 @@ from src.rendering.render import WorldRenderer
 from src.rendering.entities.player_render import PlayerRenderer
 from src.rendering.effects.health_bar_render import HealthBarRenderer
 from src.rendering.effects.projectile_render import ProjectileRenderer
-from src.systems.combat_system import CombatSystem
+from src.systems.combat_system.combat import CombatSystem
 from src.systems.wave_manager import WaveManager
 
 
