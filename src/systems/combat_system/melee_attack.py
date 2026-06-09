@@ -2,10 +2,10 @@ import pygame
 import math
 
 
-class Attack:
-    def __init__(self, damage: int, range: float, duration: float = 0.1, is_melee: bool = True):
+class MeleeAttack:
+    def __init__(self, damage: int, attack_range: float, duration: float = 0.1, is_melee: bool = True):
         self.damage = damage
-        self.range = range
+        self.attack_range = attack_range
         self.duration = duration
         self.is_melee = is_melee
         self.is_active = True
@@ -21,10 +21,10 @@ class Attack:
         center_x = attacker_x + attacker_width / 2
         center_y = attacker_y + attacker_height / 2
 
-        offset_x = math.cos(facing_angle) * (self.range / 2)
-        offset_y = math.sin(facing_angle) * (self.range / 2)
+        offset_x = math.cos(facing_angle) * (self.attack_range / 2)
+        offset_y = math.sin(facing_angle) * (self.attack_range / 2)
 
-        hitbox_x = center_x + offset_x - self.range / 2
-        hitbox_y = center_y + offset_y - self.range / 2
+        hitbox_x = center_x + offset_x - self.attack_range / 2
+        hitbox_y = center_y + offset_y - self.attack_range / 2
 
-        return pygame.Rect(hitbox_x, hitbox_y, self.range, self.range)
+        return pygame.Rect(hitbox_x, hitbox_y, self.attack_range, self.attack_range)

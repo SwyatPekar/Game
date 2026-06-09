@@ -3,7 +3,7 @@ import pygame
 from src.core import config
 from src.objects.entity import Entity
 from src.objects.weapons.projectile import Projectile
-from src.systems.combat_system.attack import Attack
+from src.systems.combat_system.melee_attack import MeleeAttack
 
 class Player(Entity):
     def __init__(self, x: float, y: float):
@@ -141,8 +141,8 @@ class Player(Entity):
             owner_type='player'
         )
 
-    def kick(self) -> Attack:
-        return Attack(
+    def kick(self) -> MeleeAttack:
+        return MeleeAttack(
             damage=config.player_kick_damage,
             range=config.player_kick_range,
             duration=0.15,

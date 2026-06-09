@@ -2,7 +2,7 @@ import math
 import random
 import pygame
 from src.objects.entity import Entity
-from src.systems.combat_system.attack import Attack
+from src.systems.combat_system.melee_attack import MeleeAttack
 from src.core import config
 from src.systems.a_star import AStar
 
@@ -24,7 +24,7 @@ class Enemy(Entity):
         self.attack_cooldown_timer = 0
         self.patrol_timer = config.enemy_patrol_timer
         self.patrol_direction = (1, 0)
-        self.current_attack: Attack = None
+        self.current_attack: MeleeAttack = None
 
         self.path = []
         self.path_timer = 0.0
@@ -161,10 +161,10 @@ class Enemy(Entity):
 
             self.attack_cooldown_timer = config.enemy_attack_cooldown
 
-    def attack(self, target: Entity) -> Attack:
-        return Attack(
+    def attack(self, target: Entity) -> MeleeAttack:
+        return MeleeAttack(
             damage=self.damage,
-            range=self.attack_range,
+            attack_range=self.attack_range,
             duration=0.2,
             is_melee=True
         )
