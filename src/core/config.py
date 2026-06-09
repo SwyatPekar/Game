@@ -2,8 +2,8 @@
 
 # Окно программы
 window_name = "Mass effect: They Will Not Break Us"
-window_width = 1900
-window_height = 1040
+window_width = 1920
+window_height = 1080
 fps = 60
 
 # Цвета
@@ -21,7 +21,7 @@ dark_purple = (75, 0, 130)
 brown = (139, 69, 19)
 dark_green = (0, 100, 0)
 cyan = (0, 191, 255)
-gray = (128, 128, 128)
+gray = (80, 80, 90)
 wall_color = (100, 100, 100)
 
 # Игрок
@@ -80,7 +80,7 @@ initial_enemies_count = 5
 enemies_increment = 2
 
 # генерация уровня
-tile_size = 40
+tile_size = 43
 map_width_tiles = 47
 map_height_tiles = 26
 
@@ -95,6 +95,5 @@ tile_rubble = 2
 # Цвета для отладки и рендера тайлов
 tile_colors = {
     tile_empty: (30, 30, 35),      # Темный асфальт
-    tile_wall: (80, 80, 90),       # Серый бетон
-    tile_rubble: (101, 67, 33)     # Коричневые обломки
+    tile_wall: gray,       # Серый бетон
 }

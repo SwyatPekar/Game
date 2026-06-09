@@ -58,11 +58,13 @@ class Player(Entity):
         self._move_with_collision(dx, dy, dt, walls)
 
     def _move_with_collision(self, dx: float, dy: float, dt: float, walls: list):
-        new_x = self.x + dx * self.speed * dt
+        intended_x = self.x + dx * self.speed * dt
+        new_x = max(0, min(intended_x, config.window_width - self.width))
         if not self._check_wall_collision(new_x, self.y, walls):
             self.x = new_x
 
-        new_y = self.y + dy * self.speed * dt
+        intended_y = self.y + dy * self.speed * dt
+        new_y = max(0, min(intended_y, config.window_height - self.height))
         if not self._check_wall_collision(self.x, new_y, walls):
             self.y = new_y
 
