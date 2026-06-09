@@ -46,7 +46,13 @@ class WaveManager:
         self.spawn_queue = ["husk"] * count
 
     def update(self, dt: float, walls: list, grid: list):
+        previous_count = len(self.active_enemies)
+
         self.active_enemies = [e for e in self.active_enemies if e.is_alive]
+
+        killed_this_frame = previous_count - len(self.active_enemies)
+        if killed_this_frame > 0:
+            self.score += killed_this_frame * 50
 
         self.timer += dt
 

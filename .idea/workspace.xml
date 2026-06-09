@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Подправил логику неуязвимости вовремя рывка">
+    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Подхимичил с коллизиями экрана">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/objects/enemies/enemy.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/objects/enemies/enemy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/objects/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/objects/player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rendering/entities/player_render.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rendering/entities/player_render.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/systems/wave_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/systems/wave_manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -441,11 +440,18 @@
       <option name="project" value="LOCAL" />
       <updated>1781027875941</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="Подхимичил с коллизиями экрана">
+      <option name="closed" value="true" />
+      <created>1781029139073</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1781029139073</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Продолжаю рефакторить, на этот раз wave_manager.py" />
     <MESSAGE value="Продолжаю рефакторить, на этот раз config.py" />
     <MESSAGE value="Продолжаю рефакторить, на этот раз entity.py" />
     <MESSAGE value="Продолжаю рефакторить, на этот раз player.py and game" />
@@ -470,6 +476,7 @@
     <MESSAGE value="Разделил ответственность отрисовки для врагов" />
     <MESSAGE value="Рефакторинг, избавился от обертки левел менеджер" />
     <MESSAGE value="Подправил логику неуязвимости вовремя рывка" />
-    <option name="LAST_COMMIT_MESSAGE" value="Подправил логику неуязвимости вовремя рывка" />
+    <MESSAGE value="Подхимичил с коллизиями экрана" />
+    <option name="LAST_COMMIT_MESSAGE" value="Подхимичил с коллизиями экрана" />
   </component>
 </project>

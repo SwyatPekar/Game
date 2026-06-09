@@ -24,7 +24,7 @@ class PlayerRenderer:
         if config.debug_mode:
             if player.roll_cooldown > 0:
                 font = pygame.font.SysFont("Arial", 12)
-                text = font.render(f"Roll CD: {player.roll_cooldown:.1f}s", True, config.white)
+                text = font.render(f"Перекат: {player.roll_cooldown:.1f}с", True, config.white)
                 screen.blit(text, (player.x, player.y - 25))
 
             if config.show_collision_boxes:
