@@ -169,27 +169,5 @@ class Enemy(Entity):
         rect = pygame.Rect(x, y, self.width, self.height)
         return any(rect.colliderect(wall) for wall in walls)
 
-    def draw(self, screen: pygame.Surface, renderers: dict = None):
-        color = self.get_color()
-        pygame.draw.rect(screen, color, (self.x, self.y, self.width, self.height))
-        pygame.draw.rect(screen, (0, 0, 0), (self.x, self.y, self.width, self.height), 2)
-
-        if self.health < self.max_health and renderers and 'health_bar' in renderers:
-            renderers['health_bar'].render(screen, self, is_enemy=True)
-
-        if config.debug_mode:
-            center_x = int(self.x + self.width / 2)
-            center_y = int(self.y + self.height / 2)
-
-            if config.show_ai_states:
-                font = pygame.font.SysFont("Arial", 12)
-                text = font.render(self.state, True, config.white)
-                screen.blit(text, (self.x, self.y - 20))
-                pygame.draw.circle(screen, config.cyan, (center_x, center_y), int(self.detection_range), 1)
-
-            if config.show_collision_boxes:
-                pygame.draw.circle(screen, config.yellow, (center_x, center_y), int(self.attack_range), 1)
-                pygame.draw.rect(screen, config.red, self.get_rect(), 1)
-
     def get_color(self) -> tuple:
         return (255, 0, 0)

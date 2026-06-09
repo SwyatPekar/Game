@@ -15,7 +15,7 @@ class WorldRenderer:
 
         for enemy in enemies:
             if enemy.is_alive:
-                enemy.draw(self.screen, renderers)
+                renderers['enemy'].render(self.screen, enemy, renderers)
 
         for projectile in projectiles:
             self.renderers['projectile'].render(self.screen, projectile)

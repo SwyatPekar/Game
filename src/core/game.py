@@ -5,6 +5,7 @@ from src.core.input_handler import InputHandler
 from src.systems.status_manager import GameStateManager
 from src.systems.level_manager import LevelManager
 from src.rendering.render import WorldRenderer
+from src.rendering.entities.enemy_render import EnemyRenderer
 from src.rendering.entities.player_render import PlayerRenderer
 from src.rendering.effects.health_bar_render import HealthBarRenderer
 from src.rendering.effects.projectile_render import ProjectileRenderer
@@ -27,13 +28,15 @@ class GameEngine:
         self.level_manager = LevelManager()
 
         self.player_renderer = PlayerRenderer()
+        self.enemy_renderer = EnemyRenderer()
         self.health_bar_renderer = HealthBarRenderer()
         self.projectile_renderer = ProjectileRenderer()
 
         self.renderers = {
             'player': self.player_renderer,
             'health_bar': self.health_bar_renderer,
-            'projectile': self.projectile_renderer
+            'projectile': self.projectile_renderer,
+            'enemy': self.enemy_renderer
         }
 
         self.renderer = WorldRenderer(
