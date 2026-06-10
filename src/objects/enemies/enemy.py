@@ -1,14 +1,14 @@
-import pygame
 import math
-from abc import ABC
+import random
+import pygame
+from collections import deque
 from src.objects.entity import Entity
-from src.combat.attack import Attack
-from src.core.config import enemy_detection_range, enemy_attack_cooldown, enemy_patrol_timer
+from src.systems.combat_system.melee_attack import MeleeAttack
+from src.core import config
+from src.systems.a_star import AStar
 
 
-class Enemy(Entity, ABC):
-    """Базовый класс для всех врагов (Model)"""
-
+class Enemy(Entity):
     def __init__(self, x: float, y: float, enemy_type: str):
         stats = self.get_enemy_stats(enemy_type)
         super().__init__(x, y, stats['width'], stats['height'], stats['speed'])
@@ -19,61 +19,61 @@ class Enemy(Entity, ABC):
         self.damage = stats['damage']
         self.speed = stats['speed']
 
-        # AI состояния
-        self.state = "patrol"  # patrol, chase, attack
-        self.target = None
-        self.detection_range = enemy_detection_range
+        self.state = "patrol"
+        self.detection_range = config.enemy_detection_range
         self.attack_range = stats['attack_range']
         self.attack_cooldown_timer = 0
-        self.patrol_timer = 0
+        self.patrol_timer = config.enemy_patrol_timer
         self.patrol_direction = (1, 0)
+        self.current_attack: MeleeAttack = None
+
+        self.path = deque()
+        self.path_timer = 0.0
+        self.path_update_interval = 0.5
+        self.current_target_tile = None
+        self.last_position = (x, y)
+        self.stuck_timer = 0.0
+
+        self.facing_angle = 0  # <-- ДОБАВЛЕНО
 
     def get_enemy_stats(self, enemy_type: str) -> dict:
-        """Статистики разных типов врагов (переопределяется в подклассах)"""
         return {
-            'width': 32,
-            'height': 32,
-            'speed': 100,
-            'health': 50,
-            'damage': 10,
-            'attack_range': 40
+            'width': config.enemy_base_width,
+            'height': config.enemy_base_height,
+            'speed': config.enemy_base_speed,
+            'health': config.enemy_base_health,
+            'damage': config.enemy_base_damage,
+            'attack_range': config.enemy_base_attack_range
         }
 
-    def update(self, dt: float, player: Entity, walls: list):
-        """Обновление состояния врага (AI + движение)"""
+    def update(self, dt: float, player: Entity, walls: list, grid: list):
         if not self.is_alive:
             return
 
-        # Обновление кулдауна атаки
+        self.current_attack = None
         if self.attack_cooldown_timer > 0:
             self.attack_cooldown_timer -= dt
 
-        # Проверка дистанции до игрока
         if player and player.is_alive:
             distance = self.distance_to(player)
-            self._update_ai_state(distance, player)
-            self._execute_ai_behavior(dt, player, walls)
+            self._update_ai_state(distance)
+            self._update_facing_angle(player)
+            self._execute_ai_behavior(dt, player, walls, grid)
 
-    def _update_ai_state(self, distance: float, player: Entity):
-        """Обновление состояния AI"""
-        if distance <= self.attack_range:
-            self.state = "attack"
-        elif distance <= self.detection_range:
-            self.state = "chase"
-        else:
-            self.state = "patrol"
+    def _update_facing_angle(self, player: Entity):
+        dx = player.x - (self.x + self.width / 2)
+        dy = player.y - (self.y + self.height / 2)
+        self.facing_angle = math.atan2(dy, dx)
 
-    def _execute_ai_behavior(self, dt: float, player: Entity, walls: list):
-        """Выполнение поведения в зависимости от состояния"""
+    def _execute_ai_behavior(self, dt: float, player: Entity, walls: list, grid: list):
         if self.state == "chase":
-            self._chase_player(dt, player, walls)
+            self._chase_player_smart(dt, player, walls, grid)
         elif self.state == "attack":
-            self._attack_player(dt, player)
+            self._attack_player(player)
         elif self.state == "patrol":
             self._patrol(dt, walls)
 
     def _chase_player(self, dt: float, player: Entity, walls: list):
-        """Преследование игрока"""
         dx = player.x - self.x
         dy = player.y - self.y
 
@@ -82,86 +82,102 @@ class Enemy(Entity, ABC):
             dx, dy = dx / length, dy / length
             self._move_with_collision(dx, dy, dt, walls)
 
-    def _attack_player(self, dt: float, player: Entity):
-        """Атака игрока (наносит урон напрямую)"""
+    def _chase_player_smart(self, dt: float, player: Entity, walls: list, grid: list):
+        self.path_timer -= dt
+        target_tile = self._get_tile(player.x, player.y)
+
+        if self.path_timer <= 0 or self.current_target_tile != target_tile:
+            self.path_timer = self.path_update_interval
+            self.current_target_tile = target_tile
+            start_tile = self._get_tile(self.x, self.y)
+            self.path = deque(AStar.find_path(grid, start_tile, target_tile))
+
+        distance_moved = math.sqrt((self.x - self.last_position[0]) ** 2 + (self.y - self.last_position[1]) ** 2)
+        self.last_position = (self.x, self.y)
+
+        if distance_moved < 1:
+            self.stuck_timer += dt
+        else:
+            self.stuck_timer = 0.0
+
+        if self.stuck_timer > 0.5:
+            self.path.clear()
+            self.stuck_timer = 0.0
+
+        if len(self.path) > 1:
+            target_tile_pos = self.path[1]
+            target_x = target_tile_pos[0] * config.tile_size + config.tile_size / 2
+            target_y = target_tile_pos[1] * config.tile_size + config.tile_size / 2
+
+            dx = target_x - (self.x + self.width / 2)
+            dy = target_y - (self.y + self.height / 2)
+            distance_to_target = math.sqrt(dx ** 2 + dy ** 2)
+
+            if distance_to_target < 15:
+                self.path.popleft()
+                return
+
+            if dx != 0 or dy != 0:
+                length = math.sqrt(dx ** 2 + dy ** 2)
+                dx, dy = dx / length, dy / length
+                self._move_with_collision(dx, dy, dt, walls)
+        else:
+            self._chase_player(dt, player, walls)
+
+    def _get_tile(self, px: float, py: float) -> tuple:
+        tx = int((px + self.width / 2) // config.tile_size)
+        ty = int((py + self.height / 2) // config.tile_size)
+        return (tx, ty)
+
+    def _update_ai_state(self, distance: float):
+        if distance <= self.attack_range:
+            self.state = "attack"
+        elif distance <= self.detection_range:
+            self.state = "chase"
+        else:
+            self.state = "patrol"
+
+    def _attack_player(self, player: Entity):
         if self.attack_cooldown_timer <= 0:
-            # Проверяем, что игрок в радиусе атаки
-            if self.distance_to(player) <= self.attack_range:
-                # Проверяем, что игрок не в перекате
-                if not player.invincible:
-                    player.take_damage(self.damage)
-                    print(f"Враг {self.enemy_type} нанёс {self.damage} урона! HP игрока: {player.health}")
+            self.current_attack = self.attack(player)
+            self.attack_cooldown_timer = config.enemy_attack_cooldown
 
-            # Сброс кулдауна
-            self.attack_cooldown_timer = enemy_attack_cooldown
-
-    def attack(self, target: Entity) -> Attack:
-        """
-        Создает объект атаки.
-        По умолчанию — ближний бой (Husk).
-        Переопределяется в подклассах для дальнобойных врагов.
-        """
-        return Attack(
+    def attack(self, target: Entity) -> MeleeAttack:
+        return MeleeAttack(
             damage=self.damage,
-            range=self.attack_range,
-            duration=0.2,  # Длительность хитбокса
+            attack_range=self.attack_range,
+            duration=0.2,
             is_melee=True
         )
 
     def _patrol(self, dt: float, walls: list):
-        """Патрулирование области"""
         self.patrol_timer -= dt
 
         if self.patrol_timer <= 0:
-            import random
-            self.patrol_direction = (random.uniform(-1, 1), random.uniform(-1, 1))
-            length = math.sqrt(self.patrol_direction[0] ** 2 + self.patrol_direction[1] ** 2)
+            dx = random.uniform(-1, 1)
+            dy = random.uniform(-1, 1)
+            length = math.sqrt(dx ** 2 + dy ** 2)
             if length > 0:
-                self.patrol_direction = (
-                    self.patrol_direction[0] / length,
-                    self.patrol_direction[1] / length
-                )
-            self.patrol_timer = enemy_patrol_timer
+                self.patrol_direction = (dx / length, dy / length)
+            self.patrol_timer = config.enemy_patrol_timer
 
         dx, dy = self.patrol_direction
         self._move_with_collision(dx, dy, dt, walls)
 
     def _move_with_collision(self, dx: float, dy: float, dt: float, walls: list):
-        """Перемещение с проверкой коллизий"""
-        new_x = self.x + dx * self.speed * dt
-        new_y = self.y + dy * self.speed * dt
-
-        rect = pygame.Rect(new_x, new_y, self.width, self.height)
-        collision = False
-
-        for wall in walls:
-            if rect.colliderect(wall):
-                collision = True
-                break
-
-        if not collision:
+        intended_x = self.x + dx * self.speed * dt
+        new_x = max(0, min(intended_x, config.window_width - self.width))
+        if not self._check_wall_collision(new_x, self.y, walls):
             self.x = new_x
+
+        intended_y = self.y + dy * self.speed * dt
+        new_y = max(0, min(intended_y, config.window_height - self.height))
+        if not self._check_wall_collision(self.x, new_y, walls):
             self.y = new_y
 
-    def draw(self, screen: pygame.Surface):
-        """Отрисовка врага (View)"""
-        color = self.get_color()
-        pygame.draw.rect(screen, color, (self.x, self.y, self.width, self.height))
-        pygame.draw.rect(screen, (0, 0, 0), (self.x, self.y, self.width, self.height), 2)
-
-        if self.health < self.max_health:
-            self._draw_health_bar(screen)
+    def _check_wall_collision(self, x: float, y: float, walls: list) -> bool:
+        rect = pygame.Rect(x, y, self.width, self.height)
+        return any(rect.colliderect(wall) for wall in walls)
 
     def get_color(self) -> tuple:
-        """Цвет врага (переопределяется в подклассах)"""
-        return (255, 0, 0)
-
-    def _draw_health_bar(self, screen: pygame.Surface):
-        """Отрисовка полоски здоровья"""
-        bar_width = self.width
-        bar_height = 4
-        bar_y = self.y - 8
-
-        pygame.draw.rect(screen, (255, 0, 0), (self.x, bar_y, bar_width, bar_height))
-        health_width = int(bar_width * (self.health / self.max_health))
-        pygame.draw.rect(screen, (0, 255, 0), (self.x, bar_y, health_width, bar_height))
+        return config.red

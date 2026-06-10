@@ -1,36 +1,25 @@
-"""
-Рендерер полоски здоровья.
-"""
 import pygame
-from src.core.config import health_bar_width, health_bar_height, health_bar_offset_y, black, red, green
+from src.core import config
 
 
 class HealthBarRenderer:
-    """
-    Универсальный рендерер для полосок здоровья.
-    View-компонент.
-    """
-
     @staticmethod
-    def render(screen: pygame.Surface, entity):
-        """
-        Отрисовка полоски здоровья для любой сущности
+    def render(screen: pygame.Surface, entity, is_enemy: bool = False):
+        if is_enemy:
+            bar_width = entity.width
+            bar_height = config.health_bar_height_enemy
+            offset_y = config.health_bar_offset_y_enemy
+        else:
+            bar_width = config.health_bar_width
+            bar_height = config.health_bar_height
+            offset_y = config.health_bar_offset_y
 
-        Args:
-            screen: Поверхность для отрисовки
-            entity: Сущность с атрибутами health и max_health
-        """
-        bar_width = health_bar_width
-        bar_height = health_bar_height
         bar_x = entity.x - (bar_width - entity.width) / 2
-        bar_y = entity.y - health_bar_offset_y
+        bar_y = entity.y - offset_y
 
-        # Фон полоски (красный)
-        pygame.draw.rect(screen, red, (bar_x, bar_y, bar_width, bar_height))
+        pygame.draw.rect(screen, config.red, (bar_x, bar_y, bar_width, bar_height))
 
-        # Текущее здоровье (зеленое)
         health_width = int(bar_width * (entity.health / entity.max_health))
-        pygame.draw.rect(screen, green, (bar_x, bar_y, health_width, bar_height))
+        pygame.draw.rect(screen, config.green, (bar_x, bar_y, health_width, bar_height))
 
-        # Рамка
-        pygame.draw.rect(screen, black, (bar_x, bar_y, bar_width, bar_height), 1)
+        pygame.draw.rect(screen, config.black, (bar_x, bar_y, bar_width, bar_height), 1)

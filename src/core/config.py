@@ -1,9 +1,9 @@
-# Mass effec: They Will Not Break Us
+# Mass effect: They Will Not Break Us
 
 # Окно программы
 window_name = "Mass effect: They Will Not Break Us"
-window_width = 1200
-window_height = 800
+window_width = 1920
+window_height = 1080
 fps = 60
 
 # Цвета
@@ -21,7 +21,7 @@ dark_purple = (75, 0, 130)
 brown = (139, 69, 19)
 dark_green = (0, 100, 0)
 cyan = (0, 191, 255)
-gray = (128, 128, 128)
+gray = (80, 80, 90)
 wall_color = (100, 100, 100)
 
 # Игрок
@@ -34,6 +34,7 @@ bullet_speed = 600
 
 # Перекат
 player_roll_speed = 400
+player_roll_invincibility = 0.4
 player_roll_duration = 0.2
 player_roll_cooldown = 1.0
 player_invincible_frames = True
@@ -43,14 +44,25 @@ player_kick_range = 40
 player_kick_damage = 15
 
 # Враги
+enemy_base_width = 32
+enemy_base_height = 32
+enemy_base_speed = 100
+enemy_base_health = 50
+enemy_base_damage = 10
+enemy_base_attack_range = 40
 enemy_detection_range = 2000
 enemy_attack_cooldown = 1.0
 enemy_patrol_timer = 2.0
+health_bar_height_enemy = 4
+health_bar_offset_y_enemy = 8
 
 # UI
 health_bar_width = 40
 health_bar_height = 5
 health_bar_offset_y = 10
+
+# Снаряды
+projectile_radius = 4
 
 # Отладка
 debug_mode = True
@@ -66,3 +78,22 @@ wave_rest_duration = 10.0
 wave_spawn_interval = 1.5
 initial_enemies_count = 5
 enemies_increment = 2
+
+# генерация уровня
+tile_size = 43
+map_width_tiles = 47
+map_height_tiles = 26
+
+# Для состояний игры
+game_over_delay = 1.5
+
+# Типы тайлов
+tile_empty = 0
+tile_wall = 1
+tile_rubble = 2
+
+# Цвета для отладки и рендера тайлов
+tile_colors = {
+    tile_empty: (30, 30, 35),      # Темный асфальт
+    tile_wall: gray,       # Серый бетон
+}

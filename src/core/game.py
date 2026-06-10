@@ -2,159 +2,124 @@ import sys
 import pygame
 from src.core import config
 from src.core.input_handler import InputHandler
-from src.objects.player import Player
+from src.systems.status_manager import GameStateManager
+from src.systems.level_generator_system.level_generator import LevelGenerator
+from src.rendering.render import WorldRenderer
+from src.rendering.entities.enemy_render import EnemyRenderer
 from src.rendering.entities.player_render import PlayerRenderer
 from src.rendering.effects.health_bar_render import HealthBarRenderer
 from src.rendering.effects.projectile_render import ProjectileRenderer
-from src.tests.test_walls import create_test_walls
-from src.tests.debug_config import test_player_spawn_x, test_player_spawn_y
-from src.systems.combat_system import CombatSystem
+from src.systems.combat_system.combat import CombatSystem
 from src.systems.wave_manager import WaveManager
 
 
 class GameEngine:
-    """
-    Основной игровой цикл (Controller).
-    Координирует обновление моделей (Model) и отрисовку (View).
-    """
-
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((config.window_width, config.window_height))
-        # Путь к иконке оставлен как в оригинале
         icon = pygame.image.load('../assets/images/icon.png')
         pygame.display.set_caption(config.window_name)
         pygame.display.set_icon(icon)
         self.clock = pygame.time.Clock()
         self.running = True
 
-        # --- Инициализация View/Controller ---
-        self.input_handler = InputHandler(self.screen)
+        self.input_handler = InputHandler()
+        self.state_manager = GameStateManager()
+        self.level_generator = LevelGenerator()
+
         self.player_renderer = PlayerRenderer()
+        self.enemy_renderer = EnemyRenderer()
         self.health_bar_renderer = HealthBarRenderer()
         self.projectile_renderer = ProjectileRenderer()
 
-        # --- Инициализация Model ---
-        self.player = self._create_player()
-        self.walls = create_test_walls()
+        self.renderers = {
+            'player': self.player_renderer,
+            'health_bar': self.health_bar_renderer,
+            'projectile': self.projectile_renderer,
+            'enemy': self.enemy_renderer
+        }
 
-        # Боевая система (System)
-        self.combat_system = CombatSystem()
+        self.renderer = WorldRenderer(
+            self.screen,
+            self.renderers
+        )
 
+        self.combat_system = CombatSystem(config.window_width, config.window_height)
         self.wave_manager = WaveManager(config.window_width, config.window_height)
 
+        self.reset_game()
+
+    def reset_game(self):
+        self.player, self.walls, self.grid = LevelGenerator.generate()
+        self.wave_manager.reset()
+        self.combat_system.reset()
+        self.state_manager.reset()
+
     def run(self):
-        """Главный игровой цикл"""
         while self.running:
             dt = self.clock.tick(config.fps) / 1000.0
 
-            # 1. Обработка ввода (Controller)
-            action = self.input_handler.handle_events()
+            self.input_handler.update()
 
-            # 2. Обновление логики (Model + Systems)
-            self._update(dt)
+            actions = self.input_handler.handle_events()
+            if 'quit' in actions:
+                self.running = False
+                break
 
-            # 3. Отрисовка (View)
-            self._render()
+            if self.state_manager.state == "PLAYING":
+                self._update(dt)
+                for action in actions:
+                    self._process_action(action)
 
-            # 4. Обработка действий
-            self._process_action(action)
+                if not self.player.is_alive:
+                    print(f"Игрок погиб. Счёт: {self.wave_manager.get_wave_info().get('score', 0)}")
+                    self.state_manager.game_over()
 
-            # Проверка смерти игрока
-            if not self.player.is_alive:
-                print(f"Игрок погиб. Счёт: {self.wave_manager.get_wave_info()['score']}")
-                # Простой перезапуск сцены
-                pygame.time.wait(1500)
-                self.__init__()
+            elif self.state_manager.state == "GAME_OVER":
+                if self.state_manager.update(dt):
+                    self.reset_game()
 
-    def _create_player(self) -> Player:
-        """Создание игрока."""
-        return Player(test_player_spawn_x, test_player_spawn_y)
+            self.renderer.render(
+                self.walls,
+                self.wave_manager.get_enemies(),
+                self.combat_system.projectiles,
+                self.player,
+                self.wave_manager,
+                self.renderers
+            )
+
+        self.cleanup()
 
     def _update(self, dt: float):
-        """Обновление игрового состояния."""
-
-        # --- Логика Волн ---
-        # Если игра только началась (WAITING), запускаем первую волну
         if self.wave_manager.state == "WAITING":
             self.wave_manager.start_game()
 
-            # Передаём стены в update волн
-        self.wave_manager.update(dt, self.walls)
-
-        # Получаем только живых врагов
+        self.wave_manager.update(dt, self.walls, self.grid)
         active_enemies = self.wave_manager.get_enemies()
 
-        # --- Логика Игрока ---
         if self.player.is_alive:
-            keys = pygame.key.get_pressed()
-            mouse_pos = pygame.mouse.get_pos()
-            self.player.update(dt, keys, mouse_pos, self.walls)
+            self.player.update(dt, self.input_handler, self.walls)
 
-        # --- Логика Врагов ---
-        # Каждый враг обновляет своё AI и движение
         for enemy in active_enemies:
             if enemy.is_alive:
-                enemy.update(dt, self.player, self.walls)
+                enemy.update(dt, self.player, self.walls, self.grid)
 
-        # --- Боевая Система ---
-        # Обновление снарядов, атак и применение урона
+                if enemy.current_attack:
+                    self.combat_system.register_attack(enemy, enemy.current_attack)
+
         self.combat_system.update(dt, self.player, active_enemies, self.walls)
 
-    def _render(self):
-        """Отрисовка кадра (View)."""
-        self.screen.fill(config.dark_blue)
-
-        # 1. Стены
-        for wall in self.walls:
-            pygame.draw.rect(self.screen, config.wall_color, wall)
-
-        # 2. Враги (рисуем только тех, кого вернул WaveManager)
-        for enemy in self.wave_manager.get_enemies():
-            enemy.draw(self.screen)
-
-        # 3. Снаряды (делегирование специализированному рендереру)
-        for projectile in self.combat_system.projectiles:
-            self.projectile_renderer.render(self.screen, projectile)
-
-        # 4. Игрок
-        if self.player.is_alive:
-            self.player.draw(
-                self.screen,
-                self.player_renderer,
-                self.health_bar_renderer
-            )
-
-        # 5. HUD: Информация о волне (для отладки)
-        self._render_hud()
-
-        pygame.display.flip()
-
-    def _render_hud(self):
-        """Отрисовка отладочного HUD"""
-        font = pygame.font.SysFont("Arial", 20)
-        info = self.wave_manager.get_wave_info()
-
-        # Текст: Wave: 1 | SPAWNING
-        text_wave = font.render(f"Wave: {info['wave']} | {info['state']}", True, config.white)
-        self.screen.blit(text_wave, (10, 10))
-
     def _process_action(self, action):
-        """Обработка действий от InputHandler."""
-        if action == 'quit':
-            self.running = False
-
-        elif action == 'shoot' and self.player.is_alive:
-            # Создаём снаряд и регистрируем в боевой системе
+        if action == 'shoot' and self.player.is_alive:
             projectile = self.player.shoot()
-            self.combat_system.register_projectile(projectile)
+            if projectile:
+                self.combat_system.register_projectile(projectile)
 
         elif action == 'kick' and self.player.is_alive:
-            # Создаём melee-атаку и регистрируем в боевой системе
             attack = self.player.kick()
-            self.combat_system.register_attack(self.player, attack)
+            if attack:
+                self.combat_system.register_attack(self.player, attack)
 
     def cleanup(self):
-        """Завершение работы."""
         pygame.quit()
         sys.exit()
