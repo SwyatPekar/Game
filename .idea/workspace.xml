@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Подхимичил с коллизиями экрана">
+    <list default="true" id="11d9042c-790b-4fa9-b00d-dd6ed8ac292a" name="Changes" comment="Улучшил немного систему набора очков">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rendering/entities/player_render.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rendering/entities/player_render.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/systems/wave_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/systems/wave_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/objects/enemies/enemy.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/objects/enemies/enemy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/objects/entity.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/objects/entity.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rendering/effects/projectile_render.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rendering/effects/projectile_render.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rendering/entities/entity_render.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rendering/entities/entity_render.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/systems/level_generator_system/cover_placer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/systems/level_generator_system/cover_placer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -448,11 +451,18 @@
       <option name="project" value="LOCAL" />
       <updated>1781029139073</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="Улучшил немного систему набора очков">
+      <option name="closed" value="true" />
+      <created>1781029709913</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1781029709913</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Продолжаю рефакторить, на этот раз config.py" />
     <MESSAGE value="Продолжаю рефакторить, на этот раз entity.py" />
     <MESSAGE value="Продолжаю рефакторить, на этот раз player.py and game" />
     <MESSAGE value="Продолжаю рефакторить, на этот раз render.py" />
@@ -477,6 +487,7 @@
     <MESSAGE value="Рефакторинг, избавился от обертки левел менеджер" />
     <MESSAGE value="Подправил логику неуязвимости вовремя рывка" />
     <MESSAGE value="Подхимичил с коллизиями экрана" />
-    <option name="LAST_COMMIT_MESSAGE" value="Подхимичил с коллизиями экрана" />
+    <MESSAGE value="Улучшил немного систему набора очков" />
+    <option name="LAST_COMMIT_MESSAGE" value="Улучшил немного систему набора очков" />
   </component>
 </project>

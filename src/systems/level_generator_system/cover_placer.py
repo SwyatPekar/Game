@@ -42,11 +42,8 @@ class CoverPlacer:
         ],
         'line_h': lambda x, y: [(x + i, y) for i in range(random.randint(3, 4))],
         'line_v': lambda x, y: [(x, y + i) for i in range(random.randint(3, 4))],
-        'cross': lambda x, y: [
-            (x, y), (x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)
-        ],
-        'square': lambda x, y: [
-            (x + dx, y + dy) for dy in range(3) for dx in range(3)
+        'cross': lambda x, y: [(x, y), (x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)],
+        'square': lambda x, y: [(x + dx, y + dy) for dy in range(3) for dx in range(3)
             if not (dy == 1 and dx == 1)
         ],
     }

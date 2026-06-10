@@ -15,9 +15,4 @@ class ProjectileRenderer:
 
         pygame.draw.circle(screen, color, (int(projectile.x), int(projectile.y)),projectile.radius)
 
-        pygame.draw.circle(screen,
-            config.black,
-            (int(projectile.x), int(projectile.y)),
-            projectile.radius,
-            1
-        )
+        pygame.draw.circle(screen, config.black,(int(projectile.x), int(projectile.y)), projectile.radius, 1)

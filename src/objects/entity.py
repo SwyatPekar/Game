@@ -1,6 +1,6 @@
 import pygame
 import math
-
+from src.core import config
 
 class Entity:
     def __init__(self, x: float, y: float, width: int, height: int, speed: float):
@@ -21,7 +21,7 @@ class Entity:
             renderers['entity'].render(screen, self)
         else:
             rect = pygame.Rect(self.x, self.y, self.width, self.height)
-            pygame.draw.rect(screen, (255, 255, 255), rect)
+            pygame.draw.rect(screen, config.white, rect)
 
     def get_rect(self) -> pygame.Rect:
         return pygame.Rect(self.x, self.y, self.width, self.height)

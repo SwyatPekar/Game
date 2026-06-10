@@ -57,10 +57,10 @@ class Enemy(Entity):
         if player and player.is_alive:
             distance = self.distance_to(player)
             self._update_ai_state(distance)
-            self._update_facing_angle(player)  # <-- ДОБАВЛЕНО
+            self._update_facing_angle(player)
             self._execute_ai_behavior(dt, player, walls, grid)
 
-    def _update_facing_angle(self, player: Entity):  # <-- ДОБАВЛЕН МЕТОД
+    def _update_facing_angle(self, player: Entity):
         dx = player.x - (self.x + self.width / 2)
         dy = player.y - (self.y + self.height / 2)
         self.facing_angle = math.atan2(dy, dx)
@@ -180,4 +180,4 @@ class Enemy(Entity):
         return any(rect.colliderect(wall) for wall in walls)
 
     def get_color(self) -> tuple:
-        return (255, 0, 0)
+        return config.red
